@@ -1,0 +1,33 @@
+<%= semantic_form_for [:admin, @sale] do |f| %>
+<% @items = Item.find(:all) %>
+	<h2>Available items</h2>
+	<div class="cart_items">
+		<% for item in @items %>
+			<p><%= item.name%> <%= item.price %> <%= item.stock_amount %> <%= link_to 'Add', '' %></p>
+		<% end %>
+	</div>
+
+	<h2>Create Item</h2>
+	<div class="cart_items">
+		<%= f.inputs :first_name %>
+		<%= f.inputs :first_name %>
+	</div>
+
+	<h2>Added Items</h2>
+	<% if @cart.blank? %>
+		<div class="cart_items">
+			<p>No Items Added Yet</p>
+		</div>
+	<% else %>
+		<div class="cart_items">
+			<% for cart_item in @cart %>
+				<%= cart_item.name %>
+			<% end %>
+		</div>
+	<% end %>
+	<h2>Sale Details</h2>
+	<%= f.inputs :sale_number, :total_amount, :payment_type_id %>
+	<h2>Customer Info</h2>
+	<%= f.inputs :first_name, :last_name, :email_address, :phone_number, :address, :city, :state, :zip %>
+	<%= f.actions %>
+<% end %>
