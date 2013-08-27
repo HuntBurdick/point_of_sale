@@ -60,18 +60,8 @@ ActiveRecord::Schema.define(:version => 20130819010709) do
     t.datetime "updated_at",                                           :null => false
   end
 
-  create_table "sale_items", :force => true do |t|
-    t.integer  "item_id"
-    t.integer  "sale_id"
-    t.decimal  "original_price", :precision => 8, :scale => 2
-    t.decimal  "sale_price",     :precision => 8, :scale => 2
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
-  end
-
   create_table "sales", :force => true do |t|
     t.integer  "sale_number"
-    t.integer  "item_id"
     t.decimal  "total_amount",    :precision => 8, :scale => 2
     t.integer  "payment_type_id"
     t.string   "first_name"
@@ -84,6 +74,15 @@ ActiveRecord::Schema.define(:version => 20130819010709) do
     t.string   "zip"
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
+  end
+
+  create_table "sales_items", :force => true do |t|
+    t.integer  "item_id"
+    t.integer  "sale_id"
+    t.decimal  "original_price", :precision => 8, :scale => 2
+    t.decimal  "sale_price",     :precision => 8, :scale => 2
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
   end
 
 end

@@ -1,6 +1,6 @@
-class CreateSaleItems < ActiveRecord::Migration
+class CreateSalesItems < ActiveRecord::Migration
   def change
-    create_table :sale_items do |t|
+    create_table :sales_items do |t|
     	t.integer :item_id
     	t.integer :sale_id
     	t.decimal :original_price, :precision => 8, :scale => 2
