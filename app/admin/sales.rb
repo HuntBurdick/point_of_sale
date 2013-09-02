@@ -5,11 +5,16 @@ ActiveAdmin.register Sale do
 
 	collection_action :add_item do
 		# sale = Sale.find(params[:id])
-		puts '9999988888889989898989898989898989898989898'
+		(session[:products] ||= []) << params[:product_id]
+		puts session[:products]
 	  respond_to do |format|
         # format.html 
         format.js 
       end
+	end
+
+	collection_action :remove_product do
+
 	end
 
 	show do

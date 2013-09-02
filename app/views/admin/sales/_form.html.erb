@@ -3,7 +3,7 @@
 	<h2>Available items</h2>
 	<div class="cart_items">
 		<% for item in @items %>
-			<%= link_to item.name, :controller => 'sales', :action => 'add_item', :format => :js, :remote => true %>
+			<%= link_to item.name, url_for(:controller => 'sales', :action => 'add_item', :product_id => item.id), :format => :js, :remote => true %>
 		<% end %>
 	</div>
 
@@ -16,7 +16,9 @@
 	<h2>Added Items</h2>
 	<div class="cart_items">
 		<div class="added_items">
-			
+			<% unless session[:products].blank? %>
+				<%= session[:products] %>
+			<% end %>
 		</div>
 	</div>
 
