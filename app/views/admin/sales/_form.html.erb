@@ -1,26 +1,25 @@
 <%= semantic_form_for [:admin, @sale] do |f| %>
 <% @items = Item.find(:all) %>
-	<h2>Available items</h2>
-	<div class="cart_items">
-		<% for item in @items %>
-			<%= link_to item.name, url_for(:controller => 'sales', :action => 'add_item', :product_id => item.id), :format => :js, :remote => true %>
-		<% end %>
-	</div>
-
-	<!-- <h2>Create Item</h2>
-	<div class="cart_items">
-		<%= f.inputs %>
-		<%= f.inputs %>
-	</div> -->
-
-	<h2>Added Items</h2>
-	<div class="cart_items">
-		<div class="added_items">
-			<% unless session[:products].blank? %>
-				<%= session[:products] %>
+	<% if @sale.id.blank? %>
+		<h2>Available Stock</h2>
+		<div class="cart_items">
+			<% for item in @items %>
+				<%= link_to item.name, url_for(:controller => 'sales', :action => 'add_item', :product_id => item.id), :format => :js, :remote => true %>
 			<% end %>
 		</div>
-	</div>
+
+		<!-- <h2>Create Item</h2>
+		<div class="cart_items">
+			<%= f.inputs %>
+			<%= f.inputs %>
+		</div> -->
+
+		<h2>Current Cart</h2>
+		<div class="cart_items">
+
+			<%= render :partial => 'admin/sales/added_item' %>
+		</div>
+	<% end %>
 
 	
 	<h2>Sale Details</h2>

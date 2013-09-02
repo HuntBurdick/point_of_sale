@@ -1,3 +1,11 @@
 <div class="added_items">
-	<p><%= session[:products] %></p>
+	<% if session[:products].blank? %>
+		<p>No Products Added Yet</p>
+	<% else %>
+		<% for item in session[:products] %>
+			<%= item %>
+		<% end %>
+
+		<%= link_to 'Remove All Products', url_for(:controller => 'sales', :action => 'remove_all_product'), :format => :js, :remote => true %>
+	<% end %>
 </div>
