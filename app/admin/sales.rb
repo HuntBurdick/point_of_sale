@@ -1,4 +1,19 @@
 ActiveAdmin.register Sale do
+	index do
+		column :sale_number
+	  	column :total_amount
+	  	column :last_name
+	  	column :created_at
+
+	  	h2 do
+	    	'Current Cart'
+	    end
+	    div :class => 'cart_items' do
+	    	render :partial => 'admin/sales/added_item'
+	    end
+	end
+
+
 	controller do 
 		
 	end
@@ -18,7 +33,7 @@ ActiveAdmin.register Sale do
 	end
 
 	collection_action :remove_all_product  do
-		
+
 		session.delete(:products)
 		respond_to do |format|
 	        # format.html 
