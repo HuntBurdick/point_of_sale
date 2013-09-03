@@ -29,7 +29,12 @@ ActiveAdmin.register Sale do
 	end
 
 	collection_action :remove_product do
-
+		session[:products].delete_if {|x| x == params[:delete_id]}
+		puts 'firedfiredfiredfiredfiredfiredfiredfiredfiredfiredfiredfiredfiredfiredfired'
+		respond_to do |format|
+        # format.html 
+        format.js 
+      end
 	end
 
 	collection_action :remove_all_product  do
@@ -39,6 +44,21 @@ ActiveAdmin.register Sale do
 	        # format.html 
 	        format.js 
 	      end
+	end
+
+	collection_action :current_cart_items  do
+		items = session[:products]
+
+		count = Hash.new(0)
+
+		items.each do |v|
+			count[v] += 1
+		end
+
+		count.each do |k, v|
+			puts "#{k} appears #{v} times"
+		end
+
 	end
 
 	show do
