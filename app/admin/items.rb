@@ -1,4 +1,9 @@
 ActiveAdmin.register Item do
+
+  # belongs_to :sale
+
+  menu :label => "Items"
+
   index do
   	column :sku
   	column :name

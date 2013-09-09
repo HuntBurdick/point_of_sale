@@ -1,7 +1,6 @@
 class CreateSales < ActiveRecord::Migration
   def change
     create_table :sales do |t|
-    	t.integer :sale_number
 
     	t.decimal :total_amount, :precision => 8, :scale => 2
     	t.integer :payment_type_id

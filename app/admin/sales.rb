@@ -1,6 +1,6 @@
 ActiveAdmin.register Sale do
 	index do
-		column :sale_number
+		column :id
 	  	column :total_amount
 	  	column :last_name
 	  	column :created_at
@@ -30,7 +30,6 @@ ActiveAdmin.register Sale do
 
 	collection_action :remove_product do
 		session[:products].delete_if {|x| x == params[:delete_id]}
-		puts 'firedfiredfiredfiredfiredfiredfiredfiredfiredfiredfiredfiredfiredfiredfired'
 		respond_to do |format|
         # format.html 
         format.js 
@@ -46,18 +45,17 @@ ActiveAdmin.register Sale do
 	      end
 	end
 
-	collection_action :current_cart_items  do
-		items = session[:products]
+	collection_action :create_sale_with_items do
 
-		count = Hash.new(0)
+		@sale = Sale.new()
+		@sale.save
 
-		items.each do |v|
-			count[v] += 1
+		for product in session[:products]
+			item = Item.find(product)
+			@sale.items << item
 		end
-
-		count.each do |k, v|
-			puts "#{k} appears #{v} times"
-		end
+		session.delete(:products)
+		redirect_to :contoroller => 'admin/sales', :action => 'show', :id => @sale.id
 
 	end
 
