@@ -4,16 +4,21 @@
 			<p>No Products Added Yet</p>
 		<% else %>
 			<ul>
-
-				<% for item in session[:products] %>
+				<% total_price = 0 %>
+				<% for item in session[:products].group_by {|d| d } %>
 					<li>
-						<%= Item.find(item).name %> x 1 
-						<%= link_to 'Remove', url_for(:controller => 'sales', :action => 'remove_product', :delete_id => item), :format => :js, :remote => true %>
+						<% current_item = Item.find(item[0]) %>
+						<%= current_item.name %> X <%= item[1].count %> <span><%= item[1].count * (current_item.price) %></span>
+						<%= link_to 'Remove', url_for(:controller => 'sales', :action => 'remove_product', :delete_id => current_item.id), :format => :js, :remote => true %>
 					</li>
+					<% total_price += item[1].count * (current_item.price) %>
 				<% end %>
 			</ul>
 
 			<%= link_to 'Remove All Products', url_for(:controller => 'sales', :action => 'remove_all_product'), :format => :js, :remote => true %>
 		<% end %>
+		<div class="total_price">
+			<%= total_price %>
+		</div>
 	</div>
 

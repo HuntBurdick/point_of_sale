@@ -20,12 +20,16 @@
 	<% else %>
 		<div class="sale_wrapper">
 
-			<h2>Items</h2>
-			<div class="cart_items">
-				<% for item in @sale.items %>
-					<%= item.name %>
-				<% end %>
-			</div>
+			<% @sale_items = LineItem.where(sale_id: @sale.id) %>
+			<% unless @sale_items.blank? %>
+				<h2>Items</h2>
+				<div class="cart_items">
+					<% for item in @sale_items %>
+						<%= item.sale_id %>
+						<%= item.item_id %>
+					<% end %>
+				</div>
+			<% end %>
 
 			<h2>Sale Details</h2>
 			<%= f.inputs :total_amount, :payment_type_id %>

@@ -21,7 +21,6 @@ ActiveAdmin.register Sale do
 	collection_action :add_item do
 		# sale = Sale.find(params[:id])
 		(session[:products] ||= []) << params[:product_id]
-		puts session[:products]
 	  respond_to do |format|
         # format.html 
         format.js 
@@ -51,8 +50,8 @@ ActiveAdmin.register Sale do
 		@sale.save
 
 		for product in session[:products]
-			item = Item.find(product)
-			@sale.items << item
+			line_item = LineItem.new(:item_id => product, :sale_id => @sale.id)
+			line_item.save
 		end
 		session.delete(:products)
 		redirect_to :contoroller => 'admin/sales', :action => 'show', :id => @sale.id

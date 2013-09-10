@@ -1,4 +1,7 @@
-ActiveAdmin.register AdminUser do     
+ActiveAdmin.register AdminUser do  
+
+  menu :priority => 8, :label => "Users", :parent => "Dashboard"
+
   index do                            
     column :email                     
     column :current_sign_in_at        
