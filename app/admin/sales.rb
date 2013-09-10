@@ -4,13 +4,6 @@ ActiveAdmin.register Sale do
 	  	column :total_amount
 	  	column :last_name
 	  	column :created_at
-
-	  	h2 do
-	    	'Current Cart'
-	    end
-	    div :class => 'cart_items' do
-	    	render :partial => 'admin/sales/added_item'
-	    end
 	end
 
 
@@ -49,8 +42,9 @@ ActiveAdmin.register Sale do
 		@sale = Sale.new()
 		@sale.save
 
-		for product in session[:products]
-			line_item = LineItem.new(:item_id => product, :sale_id => @sale.id)
+		for item in session[:products].group_by {|d| d }
+			current_item = Item.find(item[0])
+			line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
 			line_item.save
 		end
 		session.delete(:products)

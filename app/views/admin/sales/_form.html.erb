@@ -24,15 +24,23 @@
 			<% unless @sale_items.blank? %>
 				<h2>Items</h2>
 				<div class="cart_items">
+					<% total_price = 0 %>
 					<% for item in @sale_items %>
-						<%= item.sale_id %>
-						<%= item.item_id %>
+						<% @item = Item.find(item.item_id) %> 
+						<%= @item.name %> X
+						<%= item.quantity %>
+						<%= @item.price * item.quantity %><br />
+						<% total_price += @item.price * item.quantity  %>
 					<% end %>
+				</div>
+				<div class="">
+					<%= total_price %>
 				</div>
 			<% end %>
 
 			<h2>Sale Details</h2>
-			<%= f.inputs :total_amount, :payment_type_id %>
+			<%= f.inputs :payment_type_id %>
+
 			<h2>Customer Info</h2>
 			<%= f.inputs :first_name, :last_name, :email_address, :phone_number, :address, :city, :state, :zip %>
 			<%= f.actions %>
