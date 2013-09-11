@@ -5,14 +5,16 @@
 		<% total_price = 0 %>
 		<% for item in @sale_items %>
 			<% @item = Item.find(item.item_id) %> 
-			<%= @item.name %> X
 			<%= item.quantity %>
-			<%= @item.price * item.quantity %><br />
+			x
+			<%= @item.name %>
+			-
+			<%= number_to_currency(@item.price * item.quantity) %><br />
 			<% total_price += @item.price * item.quantity  %>
 		<% end %>
 		<hr />
 		<div class="total_price">
-			<%= total_price %>
+			<strong>Total Price:</strong> <%= number_to_currency total_price %>
 		</div>
 	</div>
 <% end %>

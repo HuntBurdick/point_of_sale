@@ -1,5 +1,5 @@
 <%= semantic_form_for [:admin, @sale] do |f| %>
-<% @items = Item.find(:all) %>
+<% @items = Item.order(:name) %>
 
 
 		<% if @sale.id.blank? %>

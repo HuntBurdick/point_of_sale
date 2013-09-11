@@ -6,6 +6,7 @@ ActiveAdmin.register Item do
 
   index do
   	column :sku
+    column :stock_amount
   	column :name
   	column :price
   	column :description

@@ -1,15 +1,14 @@
 ActiveAdmin.register Sale do
 	index do
-		column :id
-	  	column :total_amount
+		column :id do |sale|
+	  		link_to sale.id, admin_sale_path(sale)
+	  	end
+	  	column :total_amount do |sale|
+	  		number_to_currency sale.total_amount
+	  	end
 	  	column :last_name
 	  	column :created_at
 	  	default_actions
-	end
-
-
-	controller do 
-		
 	end
 
 	collection_action :add_item do
@@ -41,15 +40,22 @@ ActiveAdmin.register Sale do
 	collection_action :create_sale_with_items do
 
 		@sale = Sale.new()
+		total_amount = 0.00
 		@sale.save
-
 		for item in session[:products].group_by {|d| d }
 			current_item = Item.find(item[0])
 			line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
 			line_item.save
+			total_amount += (current_item.price * item[1].count)
+			current_item.stock_amount -= item[1].count
+			current_item.save
 		end
+		@sale.total_amount = total_amount
+		@sale.save
+
 		session.delete(:products)
 		redirect_to :contoroller => 'admin/sales', :action => 'show', :id => @sale.id
+
 
 	end
 

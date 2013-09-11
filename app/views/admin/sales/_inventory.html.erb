@@ -1,6 +1,8 @@
 <h2>Inventory</h2>
 <div class="cart_items">
 	<% for item in @items %>
-		<%= link_to item.name, url_for(:controller => 'sales', :action => 'add_item', :product_id => item.id), :format => :js, :remote => true %>
+		<div class="cart_item">
+			<%= link_to item.name, url_for(:controller => 'sales', :action => 'add_item', :product_id => item.id), :format => :js, :remote => true %> - <%= number_to_currency item.price %>
+		</div>
 	<% end %>
 </div>
