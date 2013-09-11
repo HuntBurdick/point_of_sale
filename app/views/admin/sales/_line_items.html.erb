@@ -1,0 +1,18 @@
+<% @sale_items = LineItem.where(sale_id: @sale.id) %>
+<% unless @sale_items.blank? %>
+	<h2>Line Items</h2>
+	<div class="cart_items">
+		<% total_price = 0 %>
+		<% for item in @sale_items %>
+			<% @item = Item.find(item.item_id) %> 
+			<%= @item.name %> X
+			<%= item.quantity %>
+			<%= @item.price * item.quantity %><br />
+			<% total_price += @item.price * item.quantity  %>
+		<% end %>
+		<hr />
+		<div class="total_price">
+			<%= total_price %>
+		</div>
+	</div>
+<% end %>

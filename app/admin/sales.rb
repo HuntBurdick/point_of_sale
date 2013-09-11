@@ -4,6 +4,7 @@ ActiveAdmin.register Sale do
 	  	column :total_amount
 	  	column :last_name
 	  	column :created_at
+	  	default_actions
 	end
 
 
@@ -49,6 +50,10 @@ ActiveAdmin.register Sale do
 		end
 		session.delete(:products)
 		redirect_to :contoroller => 'admin/sales', :action => 'show', :id => @sale.id
+
+	end
+
+	collection_action :update_sale_with_items do
 
 	end
 

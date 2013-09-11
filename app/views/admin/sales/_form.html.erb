@@ -1,49 +1,31 @@
 <%= semantic_form_for [:admin, @sale] do |f| %>
 <% @items = Item.find(:all) %>
 
-	<% if @sale.id.blank? %>
-		<h2>Inventory</h2>
-		<div class="cart_items">
-			<% for item in @items %>
-				<%= link_to item.name, url_for(:controller => 'sales', :action => 'add_item', :product_id => item.id), :format => :js, :remote => true %>
-			<% end %>
-		</div>
 
-		<h2>Current Cart</h2>
-		<div class="cart_items">
-			<%= render :partial => 'admin/sales/added_item' %>
-		</div>
-		<div class="create_sale">
-				<%= link_to "Create Sale", url_for(:controller => 'sales', :action => 'create_sale_with_items') %>
-		</div>
+		<% if @sale.id.blank? %>
+			<%= render :partial => 'admin/sales/inventory' %>
 
-	<% else %>
-		<div class="sale_wrapper">
+			<h2>Current Cart</h2>
+			<div class="cart_items">
+				<%= render :partial => 'admin/sales/added_item' %>
+			</div>
+			<div class="create_sale">
+					<%= link_to "Create Sale", url_for(:controller => 'sales', :action => 'create_sale_with_items') %>
+			</div>
+		<% else %>
 
-			<% @sale_items = LineItem.where(sale_id: @sale.id) %>
-			<% unless @sale_items.blank? %>
-				<h2>Items</h2>
+
+			<div class="sale_wrapper">
+				<%= render :partial => 'admin/sales/line_items' %>
+
+				<h2>Payment Method</h2>
 				<div class="cart_items">
-					<% total_price = 0 %>
-					<% for item in @sale_items %>
-						<% @item = Item.find(item.item_id) %> 
-						<%= @item.name %> X
-						<%= item.quantity %>
-						<%= @item.price * item.quantity %><br />
-						<% total_price += @item.price * item.quantity  %>
-					<% end %>
+					<%= f.select :payment_type, ['Credit Card', 'Cash'], {:include_blank => true} %>
 				</div>
-				<div class="">
-					<%= total_price %>
-				</div>
-			<% end %>
 
-			<h2>Sale Details</h2>
-			<%= f.inputs :payment_type_id %>
-
-			<h2>Customer Info</h2>
-			<%= f.inputs :first_name, :last_name, :email_address, :phone_number, :address, :city, :state, :zip %>
-			<%= f.actions %>
-		</div>
-	<% end %>
+				<h2>Customer Info</h2>
+				<%= f.inputs :first_name, :last_name, :email_address, :phone_number, :address, :city, :state, :zip %>
+				<%= f.actions %>
+			</div>
+		<% end %>
 <% end %>

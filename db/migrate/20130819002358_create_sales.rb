@@ -3,7 +3,7 @@ class CreateSales < ActiveRecord::Migration
     create_table :sales do |t|
 
     	t.decimal :total_amount, :precision => 8, :scale => 2
-    	t.integer :payment_type_id
+    	t.string :payment_type
 
     	t.string :first_name
     	t.string :last_name

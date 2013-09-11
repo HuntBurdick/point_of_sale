@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(:version => 20130910032658) do
   end
 
   create_table "sales", :force => true do |t|
-    t.decimal  "total_amount",    :precision => 8, :scale => 2
-    t.integer  "payment_type_id"
+    t.decimal  "total_amount",  :precision => 8, :scale => 2
+    t.string   "payment_type"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email_address"
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(:version => 20130910032658) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
   end
 
 end
