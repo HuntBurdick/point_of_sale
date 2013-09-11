@@ -8,7 +8,9 @@ ActiveAdmin.register Item do
   	column :sku
     column :stock_amount
   	column :name
-  	column :price
+  	column :price do |item|
+      number_to_currency item.price
+    end
   	column :description
 
   	column "Add Item" do |item|
@@ -20,6 +22,9 @@ ActiveAdmin.register Item do
     end
     div :class => 'cart_items' do
     	render :partial => 'admin/sales/added_item'
+    end
+    div :class => 'create_sale' do
+         link_to "Create Sale", url_for(:controller => 'sales', :action => 'create_sale_with_items')
     end
   end
 

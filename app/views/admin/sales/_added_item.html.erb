@@ -17,10 +17,15 @@
 			</ul>
 		<% end %>
 		<hr />
-		<div class="total_price">
-			<strong>Price:</strong> <%= number_to_currency total_price %><br />
-			<strong>Tax Amount:</strong> <%= @tax_amount %>
-		</div>
-		<%= link_to 'Remove All Products', url_for(:controller => 'sales', :action => 'remove_all_product'), :format => :js, :remote => true %>
+		<% unless total_price.blank? %>
+			<div class="total_price">
+				<strong>Price:</strong> <%= number_to_currency total_price %><br />
+				<strong>Tax Amount:</strong> <%= total_price * 0.0825 %><br />
+				<strong>Total Amount:</strong> <%= total_price * 1.0825 %>
+			</div>
+		<% end %>
+		<% unless session[:products].blank? %>
+			<%= link_to 'Remove All Products', url_for(:controller => 'sales', :action => 'remove_all_product'), :format => :js, :remote => true %>
+		<% end %>
 	</div>
 

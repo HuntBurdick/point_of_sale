@@ -50,7 +50,7 @@ ActiveAdmin.register Sale do
 			current_item.stock_amount -= item[1].count
 			current_item.save
 		end
-		@sale.total_amount = total_amount
+		@sale.total_amount = (total_amount * 1.0825)
 		@sale.save
 
 		session.delete(:products)
