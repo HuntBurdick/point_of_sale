@@ -5,9 +5,13 @@ ActiveAdmin.register Item do
   menu :label => "Items"
 
   index do
-  	column :sku
+  	column :sku do |item|
+      link_to item.sku, admin_item_path(item)
+    end
     column :stock_amount
-  	column :name
+  	column :name do |item|
+      link_to item.name, admin_item_path(item)
+    end
   	column :price do |item|
       number_to_currency item.price
     end

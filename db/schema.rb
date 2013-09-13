@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130910032658) do
+ActiveRecord::Schema.define(:version => 20130913042353) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20130910032658) do
     t.integer  "stock_amount"
     t.datetime "created_at",                                           :null => false
     t.datetime "updated_at",                                           :null => false
+    t.decimal  "cost_price",             :precision => 8, :scale => 2
   end
 
   create_table "line_items", :force => true do |t|
@@ -69,7 +70,7 @@ ActiveRecord::Schema.define(:version => 20130910032658) do
   end
 
   create_table "sales", :force => true do |t|
-    t.decimal  "total_amount",  :precision => 8, :scale => 2
+    t.decimal  "total_amount",   :precision => 8, :scale => 2
     t.string   "payment_type"
     t.string   "first_name"
     t.string   "last_name"
@@ -79,8 +80,9 @@ ActiveRecord::Schema.define(:version => 20130910032658) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
-    t.datetime "created_at",                                  :null => false
-    t.datetime "updated_at",                                  :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+    t.decimal  "price_override", :precision => 8, :scale => 2
   end
 
 end

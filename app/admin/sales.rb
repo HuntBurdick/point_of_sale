@@ -42,13 +42,15 @@ ActiveAdmin.register Sale do
 		@sale = Sale.new()
 		total_amount = 0.00
 		@sale.save
-		for item in session[:products].group_by {|d| d }
-			current_item = Item.find(item[0])
-			line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
-			line_item.save
-			total_amount += (current_item.price * item[1].count)
-			current_item.stock_amount -= item[1].count
-			current_item.save
+		unless session[:products].blank? 
+			for item in session[:products].group_by {|d| d }
+				current_item = Item.find(item[0])
+				line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
+				line_item.save
+				total_amount += (current_item.price * item[1].count)
+				current_item.stock_amount -= item[1].count
+				current_item.save
+			end
 		end
 		@sale.total_amount = (total_amount * 1.0825)
 		@sale.save

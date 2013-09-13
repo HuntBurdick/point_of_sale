@@ -1,7 +1,4 @@
 <%= semantic_form_for [:admin, @item] do |f| %>
-	<% unless @item.image_url.blank? %>
-		<%= image_tag @item.image_url, :style => "width:300px;" %>
-	<% end %>
-	<%= f.inputs :sku, :name, :price, :stock_amount, :description, :image_url %>
+	<%= f.inputs :sku, :name, :cost_price, :price, :stock_amount, :description %>
 	<%= f.actions %>
 <% end %>
