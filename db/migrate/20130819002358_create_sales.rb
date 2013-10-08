@@ -4,15 +4,9 @@ class CreateSales < ActiveRecord::Migration
 
     	t.decimal :total_amount, :precision => 8, :scale => 2
     	t.string :payment_type
-
-    	t.string :first_name
-    	t.string :last_name
-    	t.string :email_address
-    	t.string :phone_number
-    	t.string :address
-    	t.string :city
-    	t.string :state
-    	t.string :zip
+        t.string :status
+        t.integer :order_number
+        t.integer :customer_id
 
       t.timestamps
     end

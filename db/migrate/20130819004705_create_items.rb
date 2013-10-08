@@ -7,7 +7,10 @@ class CreateItems < ActiveRecord::Migration
     	t.decimal :price, :precision => 8, :scale => 2
     	t.attachment :image_url
     	t.integer :stock_amount
-
+      t.string :status
+      t.string :vendor
+      t.decimal :cost_price, :precision => 8, :scale => 2
+      t.decimal :price_override, :precision => 8, :scale => 2
 
       t.timestamps
     end

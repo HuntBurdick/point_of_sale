@@ -4,6 +4,7 @@ class LineItems < ActiveRecord::Migration
       t.integer :item_id
       t.integer :quantity, :default => 1
       t.integer :sale_id
+      t.integer :work_order_id
 
       t.timestamps
     end

@@ -28,6 +28,9 @@
 // .admin_namespace    applies to the admin namespace (eg: /admin)
 // .other_namespace    applies to a custom namespace named other (eg: /other)
 
+#site_title {
+	display: none !important;
+}
 
 .cart_items {
 	background: none;
@@ -38,10 +41,55 @@
 	margin:20px 0px !important;
 }
 
+.header {
+	background: #1777ff !important;
+	height: 26px !important;
+	padding: 35px 20px !important;
+}
+
+body.active_admin #header a, body.active_admin #header a:link {
+	color:#fff;
+	padding:20px !important;
+	font-size: 1.8em;
+	background: #000 !important;
+}
+
+body.active_admin #header ul.tabs > li.has_nested.current > a {
+	background: #000;
+}
+
+body.active_admin #header ul.tabs > li > a {
+	background: #000 !important;
+	border:none !important;
+	box-shadow: none !important;
+}
+
+body.active_admin #header ul.tabs > li {
+	background: none !important;
+	border: none !important;
+}
+
+body.active_admin #header ul.tabs > li ul {
+	background: none !important;
+	border:none !important;
+	box-shadow: none !important;
+}
+
+
+body.active_admin #header ul.tabs > li > ul li a {
+	background: #000 !important;
+	border:none !important;
+	margin-top:10px;
+}
+
 .sale_wrapper {
 	//display:none;
 }
 
 .create_sale {
 	margin:20px !important;
+}
+
+.footer {
+	display:none;
 }

@@ -1,4 +1,10 @@
 PointOfSale::Application.routes.draw do
+  resources :customers
+
+
+  resources :work_orders
+
+
   resources :sale_items
 
 
@@ -6,6 +12,7 @@ PointOfSale::Application.routes.draw do
 
   resources :sales
 
+  root :to => "admin/dashboard#index"
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -59,7 +66,6 @@ PointOfSale::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => redirect("/admin")
 
   # put 'admin/sales#add_item' => "admin/sales#add_item", :as => "add_item"
 

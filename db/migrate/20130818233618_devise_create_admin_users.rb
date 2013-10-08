@@ -39,6 +39,8 @@ class DeviseCreateAdminUsers < ActiveRecord::Migration
       ## Token authenticatable
       # t.string :authentication_token
 
+      t.string :user_type
+
 
       t.timestamps
     end
