@@ -7,7 +7,12 @@ ActiveAdmin.register_page "Dashboard" do
     columns do
       column do
         panel "Quicklinks" do
-          para "List out: start a sale, start a work order, create customer, etc.."
+          div do
+            "Create Sale"
+          end
+          div do
+            "Create Work Order"
+          end
         end
       end
     end
