@@ -6,7 +6,6 @@ ActiveAdmin.register Sale do
 	  	column :total_amount do |sale|
 	  		number_to_currency sale.total_amount
 	  	end
-	  	column :last_name
 	  	column :created_at
 	  	default_actions
 	end

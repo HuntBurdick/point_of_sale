@@ -42,9 +42,10 @@
 }
 
 .header {
-	background: #1777ff !important;
-	height: 26px !important;
-	padding: 35px 20px !important;
+	background: #ffaf15 !important;
+	height: auto !important;
+	padding: 55px 20px !important;
+	text-align:center;
 }
 
 body.active_admin #header a, body.active_admin #header a:link {
@@ -67,6 +68,8 @@ body.active_admin #header ul.tabs > li > a {
 body.active_admin #header ul.tabs > li {
 	background: none !important;
 	border: none !important;
+	height: 40px !important;
+	padding-top: 21px !important;
 }
 
 body.active_admin #header ul.tabs > li ul {
@@ -75,6 +78,13 @@ body.active_admin #header ul.tabs > li ul {
 	box-shadow: none !important;
 }
 
+body.active_admin #header .header-item {
+	float:none !important;
+}
+
+#utility_nav {
+	display: none !important;
+}
 
 body.active_admin #header ul.tabs > li > ul li a {
 	background: #000 !important;
