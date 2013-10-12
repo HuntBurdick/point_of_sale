@@ -14,7 +14,10 @@ ActiveAdmin.register AdminUser do
 
   form do |f|                         
     f.inputs "Admin Details" do       
-      f.input :email                  
+      f.input :email
+      f.input :first_name
+      f.input :last_name
+      f.input :user_type, :label => 'User Type', :as => :select, :collection => [["Owner", "owner"],["Manager", "manager"], ["Employee", "employee"]]              
       f.input :password               
       f.input :password_confirmation  
     end                               

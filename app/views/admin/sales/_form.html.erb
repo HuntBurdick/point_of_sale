@@ -1,32 +1,42 @@
-<%= semantic_form_for [:admin, @sale] do |f| %>
-<% @items = Item.order(:name) %>
+
+<% @items = Item.find(:all).sort_by{|p| p.name.downcase} %>
 
 
-		<% if @sale.id.blank? %>
-			<%= render :partial => 'admin/sales/inventory' %>
+<% if @sale.id.blank? %>
+	<%= render :partial => 'admin/sales/inventory' %>
 
-			<h2>Current Cart</h2>
-			<div class="cart_items">
-				<%= render :partial => 'admin/sales/added_item' %>
+	<h2>Add Custom Item</h2>
+	<div class="cart_items">
+		<%= form_for("item", :url => {:controller => "admin/sales", :action => "add_custom_item"}, :method => "get") do |f| %>
+			<div class="row">
+				<%= f.label :name %><br />
+				<%= f.text_field :name %>
 			</div>
-
-			<div class="create_sale">
-					<%= link_to "Create Sale", url_for(:controller => 'sales', :action => 'create_sale_with_items') %>
+			<div class="row">
+				<%= f.label :price %><br />
+			  <%= f.text_field :price %>
 			</div>
-		<% else %>
-
-
-			<div class="sale_wrapper">
-				<%= render :partial => 'admin/sales/line_items' %>
-
-				<h2>Payment Method</h2>
-				<div class="cart_items">
-					<%= f.select :payment_type, ['Credit Card', 'Cash'], {:include_blank => true} %>
-				</div>
-
-				<h2>Customer Info</h2>
-				<%= f.inputs :total_amount %>
-				<%= f.actions %>
-			</div>
+				<%= f.submit 'Create Item and Add to Sale' %>
 		<% end %>
+	</div>
+
+	<div class="create_sale">
+		<%= link_to "Create Sale", url_for(:controller => 'sales', :action => 'create_sale_with_items') %>
+	</div>
+<% else %>
+
+	<%= semantic_form_for [:admin, @sale] do |f| %>
+		<div class="sale_wrapper">
+			<%= render :partial => 'admin/sales/line_items' %>
+
+			<h2>Payment Method</h2>
+			<div class="cart_items">
+				<%= f.select :payment_type, ['Credit Card', 'Cash'], {:include_blank => true} %>
+			</div>
+
+			<h2>Customer Info</h2>
+			<%= f.inputs :total_amount %>
+			<%= f.actions %>
+		</div>
+	<% end %>
 <% end %>

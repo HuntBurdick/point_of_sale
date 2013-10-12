@@ -12,6 +12,8 @@ class CreateItems < ActiveRecord::Migration
       t.decimal :cost_price, :precision => 8, :scale => 2
       t.decimal :price_override, :precision => 8, :scale => 2
 
+      t.boolean :custom_item
+
       t.timestamps
     end
   end

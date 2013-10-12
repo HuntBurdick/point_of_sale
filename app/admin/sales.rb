@@ -1,4 +1,7 @@
 ActiveAdmin.register Sale do
+
+	sidebar :cart, :partial => "admin/sales/added_item"
+	
 	index do
 		column :id do |sale|
 	  		link_to sale.id, admin_sale_path(sale)
@@ -17,6 +20,21 @@ ActiveAdmin.register Sale do
         # format.html 
         format.js 
       end
+	end
+
+	collection_action :add_custom_item do
+
+		item = Item.new(:name => params[:item][:name].capitalize, :price => params[:item][:price].to_f)
+		item.custom_item = true
+		item.stock_amount = 1
+		item.save
+
+		(session[:products] ||= []) << item.id
+
+		respond_to do |format|
+      format.html	{ redirect_to "/admin/sales/new" }
+      # format.js 
+    end
 	end
 
 	collection_action :remove_product do

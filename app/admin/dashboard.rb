@@ -6,14 +6,14 @@ ActiveAdmin.register_page "Dashboard" do
 
     columns do
       column do
-        panel "Quicklinks" do
-          div do
-            "Create Sale"
+          div :class => "button_action" do
+            div do
+              link_to "Create Sale", "/admin/sales/new"
+            end
+            div do
+              link_to "Create Work Order", "/admin/work_orders/new"
+            end
           end
-          div do
-            "Create Work Order"
-          end
-        end
       end
     end
     
