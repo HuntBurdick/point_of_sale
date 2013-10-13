@@ -1,7 +1,7 @@
 <% @sale_items = LineItem.where(sale_id: @sale.id) %>
 <% unless @sale_items.blank? %>
-	<h2>Line Items</h2>
 	<div class="cart_items">
+		<h2>Line Items</h2>
 		<% total_price = 0 %>
 		<% for item in @sale_items %>
 			<% @item = Item.find(item.item_id) %> 

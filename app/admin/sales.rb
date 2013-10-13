@@ -1,6 +1,7 @@
 ActiveAdmin.register Sale do
 
-	sidebar :cart, :partial => "admin/sales/added_item"
+		sidebar :cart, :partial => "admin/sales/added_item"
+		sidebar :create_customer, :partial => "admin/sales/create_new_customer"
 	
 	index do
 		column :id do |sale|
@@ -78,8 +79,23 @@ ActiveAdmin.register Sale do
 
 	end
 
-	collection_action :update_sale_with_items do
+	collection_action :add_new_customer_to_sale do
+		customer = Customer.new(:first_name => params[:customer][:first_name], :last_name => params[:customer][:last_name], :email_address => params[:customer][:email_address], :phone_number => params[:customer][:phone_number] )
+		customer.save
 
+		respond_to do |format|
+			format.html	{ redirect_to :back }
+		end
+
+	end
+
+	collection_action :add_item do
+		# sale = Sale.find(params[:id])
+		(session[:products] ||= []) << params[:product_id]
+	  respond_to do |format|
+        # format.html 
+        format.js 
+      end
 	end
 
 	show do

@@ -26,6 +26,9 @@
 		<% end %>
 		<% unless session[:products].blank? %>
 			<%= link_to 'Remove All Products', url_for(:controller => 'sales', :action => 'remove_all_product'), :format => :js, :remote => true %>
+			<div class="create_sale">
+				<%= link_to "Next Step -> -> ->", url_for(:controller => 'sales', :action => 'create_sale_with_items') %>
+			</div>
 		<% end %>
 	</div>
 

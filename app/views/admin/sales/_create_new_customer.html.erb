@@ -1,0 +1,28 @@
+<% unless @sale.blank? %>
+	<% if @sale.id.blank? %>
+		<p>Customer Information is optional and can be added in the next step.</p>
+	<% else %>
+		<div class="cart_items">
+			<%= form_for("customer", :url => {:controller => "admin/sales", :action => "add_new_customer_to_sale"}, :method => "get") do |f| %>
+				<div class="row">
+					<%= f.label :first_name %><br />
+					<%= f.text_field :first_name %>
+				</div>
+				<div class="row">
+					<%= f.label :last_name %><br />
+				  <%= f.text_field :last_name %>
+				</div>
+				<div class="row">
+					<%= f.label :email_address %><br />
+				  <%= f.text_field :email_address %>
+				</div>
+				<div class="row">
+					<%= f.label :phone_number %><br />
+				  <%= f.text_field :phone_number %>
+				</div>
+					<%= f.submit 'Create Customer' %>
+			<% end %>
+		</div>
+	<% end %>
+<% end %>
+
