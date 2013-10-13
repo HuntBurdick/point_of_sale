@@ -1,23 +1,11 @@
 ActiveAdmin.register Customer do
-  
-  collection_action :create_customer_association do
-		
-  	if params[:work_order_id]
-  		customer = Customer.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
-  	end
-
-  	if params[:sale_id]
-  		customer = Customer.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
-  	end
-  	
-		customer.save
-
-	  respond_to do |format|
-      # format.html 
-      format.js 
-    end
-	end
-
-
-
+  index do
+    column :last_name
+    column :first_name
+    column :email_address
+    column :phone_number
+    column :bike_customer
+    column :public_service
+    default_actions
+  end
 end

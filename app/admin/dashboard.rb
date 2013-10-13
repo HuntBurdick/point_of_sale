@@ -19,7 +19,7 @@ ActiveAdmin.register_page "Dashboard" do
     
     columns do
       column do
-        panel "Sales from Today" do
+        panel "Sales" do
           ul do
             for sale in Sale.find(:all)
               li link_to(sale.order_number, admin_sale_path(sale))
@@ -31,20 +31,6 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "Work Orders" do
           para "List out work open orders"
-        end
-      end
-    end
-
-    columns do
-      column do
-        panel "Recent History" do
-          para "List out daily totals and links to graphs"
-        end
-      end
-
-      column do
-        panel "Pending Orders" do
-          para "List out work pending / special orders"
         end
       end
     end

@@ -7,9 +7,15 @@ ActiveAdmin.register Sale do
 		column :id do |sale|
 	  		link_to sale.id, admin_sale_path(sale)
 	  	end
+	  	column :customer_id do |sale|
+	  		unless sale.customer_id.blank?
+	  			"#{Customer.find(sale.customer_id).last_name},#{Customer.find(sale.customer_id).first_name}"
+	  		end
+	  	end
 	  	column :total_amount do |sale|
 	  		number_to_currency sale.total_amount
 	  	end
+	  	column :payment_type
 	  	column :created_at
 	  	default_actions
 	end

@@ -1,11 +1,12 @@
 ActiveAdmin.register AdminUser do  
 
   menu :priority => 8, :label => "Employees"
+  
 
   index do                            
-    column :email                     
-    column :current_sign_in_at        
-    column :last_sign_in_at           
+    column :last_name
+    column :first_name
+    column :user_type                              
     column :sign_in_count             
     default_actions                   
   end                                 
