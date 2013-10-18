@@ -1,5 +1,5 @@
 class LineItems < ActiveRecord::Migration
-  def up
+  def change
   	create_table :line_items do |t|
       t.integer :item_id
       t.integer :quantity, :default => 1
@@ -10,6 +10,7 @@ class LineItems < ActiveRecord::Migration
     end
   end
 
-  def down
+  def self.down
+    drop_table :line_items
   end
 end
