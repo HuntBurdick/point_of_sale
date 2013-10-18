@@ -2,9 +2,6 @@ PointOfSale::Application.routes.draw do
   resources :customers
 
 
-  resources :work_orders
-
-
   resources :sale_items
 
 

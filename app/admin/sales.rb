@@ -1,8 +1,12 @@
 ActiveAdmin.register Sale do
 
-		sidebar :cart, :partial => "admin/sales/added_item"
-		sidebar :create_customer, :partial => "admin/sales/create_new_customer"
+		sidebar :cart, :partial => 'admin/sales/added_item'
+		sidebar :new_customer, :partial => "admin/sales/create_new_customer"
+		sidebar :new_item, :partial => 'admin/sales/custom_item'
+		sidebar :inventory_items, :partial => 'admin/sales/inventory'
 	
+		config.filters = false
+
 	index do
 		column :id do |sale|
 	  		link_to sale.id, admin_sale_path(sale)
@@ -39,7 +43,7 @@ ActiveAdmin.register Sale do
 		(session[:products] ||= []) << item.id
 
 		respond_to do |format|
-      format.html	{ redirect_to "/admin/sales/new" }
+      format.html	{ redirect_to :back }
       # format.js 
     end
 	end

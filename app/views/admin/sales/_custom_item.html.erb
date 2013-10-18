@@ -1,0 +1,16 @@
+
+	<%= form_for("item", :url => {:controller => "admin/sales", :action => "add_custom_item"}, :method => "get") do |f| %>
+		<div class="row">
+			<%= f.label :name %>
+			<%= f.text_field :name %>
+		</div>
+		<div class="row">
+			<%= f.label :description %>
+			<%= f.text_area :description %>
+		</div>
+		<div class="row">
+			<%= f.label :price %>
+		  <%= f.text_field :price %>
+		</div>
+		<%= f.submit 'Create' %>
+	<% end %>

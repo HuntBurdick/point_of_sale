@@ -4,6 +4,12 @@ ActiveAdmin.register Item do
 
   menu :label => "Items"
 
+  filter :sku
+  filter :name
+  filter :description 
+
+  sidebar :cart, :partial => 'admin/sales/added_item'
+
   index do
   	column :sku do |item|
       link_to item.sku, admin_item_path(item)
@@ -17,18 +23,8 @@ ActiveAdmin.register Item do
     end
   	column :description
 
-  	column "Add Item" do |item|
-      link_to 'Add', url_for(:controller => 'sales', :action => 'add_item', :product_id => item.id), :format => :js, :remote => true
-    end
-
-    h2 do
-    	'Current Sale'
-    end
-    div :class => 'cart_items' do
-    	render :partial => 'admin/sales/added_item'
-    end
-    div :class => 'create_sale' do
-         link_to "Create Sale", url_for(:controller => 'sales', :action => 'create_sale_with_items')
+  	column "Add Item To Current Cart" do |item|
+      link_to 'Add To Cart', url_for(:controller => 'sales', :action => 'add_item', :product_id => item.id), :format => :js, :remote => true
     end
   end
 

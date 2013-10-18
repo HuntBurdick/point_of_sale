@@ -1,4 +1,8 @@
 ActiveAdmin.register Customer do
+	filter :last_name
+	filter :first_name
+	filter :email_address
+	filter :phone_number
   index do
     column :last_name
     column :first_name

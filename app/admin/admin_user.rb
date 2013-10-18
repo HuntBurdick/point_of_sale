@@ -2,6 +2,9 @@ ActiveAdmin.register AdminUser do
 
   menu :priority => 8, :label => "Employees"
   
+  filter :last_name
+  filter :first_name
+  filter :user_type
 
   index do                            
     column :last_name

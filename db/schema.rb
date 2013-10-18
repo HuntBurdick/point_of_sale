@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131012181237) do
+ActiveRecord::Schema.define(:version => 20131008124503) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -48,20 +48,6 @@ ActiveRecord::Schema.define(:version => 20131012181237) do
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
-
-  create_table "customer_associations", :force => true do |t|
-    t.integer  "customer_id"
-    t.integer  "work_order_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
-  create_table "customer_sales", :force => true do |t|
-    t.integer  "customer_id"
-    t.integer  "sale_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
 
   create_table "customers", :force => true do |t|
     t.string   "first_name"
@@ -107,23 +93,18 @@ ActiveRecord::Schema.define(:version => 20131012181237) do
   end
 
   create_table "sales", :force => true do |t|
-    t.decimal  "total_amount", :precision => 8, :scale => 2
+    t.decimal  "total_amount",         :precision => 8, :scale => 2
     t.string   "payment_type"
     t.string   "status"
     t.integer  "order_number"
     t.integer  "customer_id"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
-  end
-
-  create_table "work_orders", :force => true do |t|
-    t.decimal  "total_amount", :precision => 8, :scale => 2
-    t.string   "payment_type"
-    t.string   "status"
-    t.string   "order_number"
-    t.integer  "customer_id"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.text     "comments"
+    t.boolean  "sale_completed"
+    t.boolean  "work_order"
+    t.boolean  "work_order_completed"
+    t.boolean  "work_order_called"
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
   end
 
 end
