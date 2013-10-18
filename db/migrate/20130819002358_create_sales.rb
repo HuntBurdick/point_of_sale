@@ -3,15 +3,25 @@ class CreateSales < ActiveRecord::Migration
     create_table :sales do |t|
 
     	t.decimal :total_amount, :precision => 8, :scale => 2
+      t.decimal :amount_paid
     	t.string :payment_type
-      t.string :status
-      t.integer :order_number
       t.integer :customer_id
       t.text :comments
-      t.boolean :sale_completed
+
+      t.boolean :sale_paid
+      t.boolean :sale_refunded
+
+
       t.boolean :work_order
-      t.boolean :work_order_completed
+      t.boolean :work_order_paid
       t.boolean :work_order_called
+
+      t.date :dropped_off
+      t.date :promised_by
+
+      t.boolean :special_order
+      t.boolean :special_order_paid
+
 
       t.timestamps
     end

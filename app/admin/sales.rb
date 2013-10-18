@@ -1,8 +1,9 @@
 ActiveAdmin.register Sale do
 
 		sidebar :cart, :partial => 'admin/sales/added_item'
-		sidebar :new_customer, :partial => "admin/sales/create_new_customer"
-		sidebar :new_item, :partial => 'admin/sales/custom_item'
+		sidebar :add_custom_item_to_cart, :partial => 'admin/sales/custom_item'
+		sidebar :create_customer, :partial => "admin/sales/create_new_customer"
+		sidebar :cart, :partial => 'admin/sales/added_item'
 		sidebar :inventory_items, :partial => 'admin/sales/inventory'
 	
 		config.filters = false
@@ -65,6 +66,29 @@ ActiveAdmin.register Sale do
 	      end
 	end
 
+
+	member_action :create, :method => :post do
+		@sale = Sale.new(params[:sale])
+		total_amount = 0.00
+		@sale.save
+		unless session[:products].blank? 
+			for item in session[:products].group_by {|d| d }
+				current_item = Item.find(item[0])
+				line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
+				line_item.save
+				total_amount += (current_item.price * item[1].count)
+				current_item.stock_amount -= item[1].count
+				current_item.save
+			end
+		end
+		@sale.total_amount = (total_amount * 1.0825)
+		@sale.save
+
+		session.delete(:products)
+		redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id, :notice => "Sale was Created"
+	end
+
+
 	collection_action :create_sale_with_items do
 
 		@sale = Sale.new()
@@ -84,7 +108,7 @@ ActiveAdmin.register Sale do
 		@sale.save
 
 		session.delete(:products)
-		redirect_to :contoroller => 'admin/sales', :action => 'show', :id => @sale.id
+		redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id
 
 
 	end
@@ -97,15 +121,6 @@ ActiveAdmin.register Sale do
 			format.html	{ redirect_to :back }
 		end
 
-	end
-
-	collection_action :add_item do
-		# sale = Sale.find(params[:id])
-		(session[:products] ||= []) << params[:product_id]
-	  respond_to do |format|
-        # format.html 
-        format.js 
-      end
 	end
 
 	show do

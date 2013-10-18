@@ -1,7 +1,7 @@
 
 	<div class="added_items">
 		<% if session[:products].blank? %>
-			<p>No Products Added Yet</p>
+			<p>No Items in cart. See <a href="/admin/items">Items Listing</a> or create own.</p>
 		<% else %>
 			<ul>
 				<% total_price = 0 %>

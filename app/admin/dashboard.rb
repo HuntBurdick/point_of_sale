@@ -8,10 +8,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
           div :class => "button_action" do
             div do
-              link_to "Create Sale", "/admin/sales/new"
-            end
-            div do
-              link_to "Create Work Order", "/admin/work_orders/new"
+              link_to "Create Sales and Work Orders", "/admin/sales/new"
             end
           end
       end
@@ -22,7 +19,7 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Sales" do
           ul do
             for sale in Sale.find(:all)
-              li link_to(sale.order_number, admin_sale_path(sale))
+              li link_to(sale.id, admin_sale_path(sale))
             end
           end
         end

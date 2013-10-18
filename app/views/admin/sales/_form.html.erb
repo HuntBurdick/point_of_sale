@@ -1,22 +1,15 @@
 
-<% @items = Item.find(:all).sort_by{|p| p.name.downcase} %>
-	<div class="cart_items">
-		<h2>Cart</h2>
-		<%= render :partial => 'admin/sales/added_item' %>
-	</div>
+	<% if @sale.id.blank? %>
+		<div class="cart_items">
+			<h2>Current Sale</h2>
+			<%= render :partial => 'admin/sales/added_item' %>
+		</div>
+	<% end %>
 	<%= render :partial => 'admin/sales/line_items' %>
 	<%= semantic_form_for [:admin, @sale] do |f| %>
-		<div class="cart_items">
-				<h2>Payment Method</h2>
-				<% if @sale.payment_type.blank? %>
-					<%= f.select :payment_type, ['Credit Card', 'Cash'], {:include_blank => true} %>
-				<% else %>
-					<p><%= @sale.payment_type %></p>
-				<% end %>
-			</div>
 
 			<div class="cart_items">
-				<h2>Choose Existing Customer</h2>
+				<h2>Choose Customer</h2>
 				<%= f.select :customer_id, Customer.find(:all, :order => 'last_name').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]}, {:include_blank => true, :default => nil} %>
 			</div>
 			<% unless @sale.customer_id.blank? %>
@@ -28,6 +21,16 @@
 				</div>
 			<% end %>
 			
-			<%= f.inputs :comments, :total_amount, :work_order, :sale_completed, :work_order_completed, :work_order_called %>
+			<%= f.inputs :special_order, :work_order, :comments %>
+			<% unless @sale.id.blank? %>
+				<div class="cart_items">
+					<h2>Payment Method</h2>
+						<%= f.select :payment_type, ['Credit Card', 'Cash', 'Check'], {:include_blank => true} %>
+				</div>
+				<%= f.inputs :total_amount, :amount_paid, :sale_completed, :work_order_paid, :work_order_called %>
+				<% unless @sale.amount_paid.blank? %>
+					<h2>Change: <%= @sale.amount_paid - @sale.total_amount %></h2>
+				<% end %>
+			<% end %>
 			<%= f.actions %>
 	<% end %>
