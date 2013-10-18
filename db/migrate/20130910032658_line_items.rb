@@ -1,13 +1,14 @@
 class LineItems < ActiveRecord::Migration
   def change
-  	create_table :line_items do |t|
-      t.integer :item_id
-      t.integer :quantity, :default => 1
-      t.integer :sale_id
-      t.integer :work_order_id
+    drop_table :line_items
+  	# create_table :line_items do |t|
+   #    t.integer :item_id
+   #    t.integer :quantity, :default => 1
+   #    t.integer :sale_id
+   #    t.integer :work_order_id
 
-      t.timestamps
-    end
+   #    t.timestamps
+   #  end
   end
 
   def self.down
