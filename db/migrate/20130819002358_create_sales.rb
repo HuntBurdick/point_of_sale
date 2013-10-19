@@ -11,17 +11,19 @@ class CreateSales < ActiveRecord::Migration
       t.boolean :sale_paid
       t.boolean :sale_refunded
 
-
       t.boolean :work_order
       t.boolean :work_order_paid
       t.boolean :work_order_called
 
-      t.date :dropped_off
-      t.date :promised_by
+      t.string :work_order_dropped_off_item_1
+      t.string :work_order_dropped_off_item_2
+      t.string :work_order_dropped_off_item_3
+
+      t.date :dropped_off_date
+      t.date :promised_by_date
 
       t.boolean :special_order
       t.boolean :special_order_paid
-
 
       t.timestamps
     end

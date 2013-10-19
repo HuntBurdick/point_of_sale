@@ -13,7 +13,7 @@ development:
   database: rails_pos
   pool: 5
   username: postgres
-  password: freeride
+  password: 
   port: 5432 
   host: localhost
 

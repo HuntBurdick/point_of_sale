@@ -21,7 +21,11 @@
 				</div>
 			<% end %>
 			
-			<%= f.inputs :special_order, :work_order, :comments %>
+			<%= f.inputs :special_order, :work_order %>
+			<div class="work_order_items">
+				<%= f.inputs :work_order_dropped_off_item_1, :work_order_dropped_off_item_1, :work_order_dropped_off_item_1, :dropped_off_date, :promised_by_date, :work_order_called, :work_order_paid %>
+			</div>
+			<%= f.inputs :comments %>
 			<% unless @sale.id.blank? %>
 				<div class="cart_items">
 					<h2>Payment Method</h2>
