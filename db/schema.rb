@@ -93,25 +93,29 @@ ActiveRecord::Schema.define(:version => 20131008124503) do
   end
 
   create_table "sales", :force => true do |t|
-    t.decimal  "total_amount",                  :precision => 8, :scale => 2
+    t.decimal  "total_amount",       :precision => 8, :scale => 2
     t.decimal  "amount_paid"
     t.string   "payment_type"
     t.integer  "customer_id"
     t.text     "comments"
+    t.boolean  "sale"
     t.boolean  "sale_paid"
     t.boolean  "sale_refunded"
     t.boolean  "work_order"
     t.boolean  "work_order_paid"
     t.boolean  "work_order_called"
-    t.string   "work_order_dropped_off_item_1"
-    t.string   "work_order_dropped_off_item_2"
-    t.string   "work_order_dropped_off_item_3"
+    t.string   "item_1"
+    t.text     "item_1_description"
+    t.string   "item_2"
+    t.text     "item_2_description"
+    t.string   "item_3"
+    t.text     "item_3_description"
     t.date     "dropped_off_date"
     t.date     "promised_by_date"
     t.boolean  "special_order"
     t.boolean  "special_order_paid"
-    t.datetime "created_at",                                                  :null => false
-    t.datetime "updated_at",                                                  :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
   end
 
 end

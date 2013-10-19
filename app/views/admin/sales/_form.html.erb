@@ -1,7 +1,7 @@
 
 	<% if @sale.id.blank? %>
 		<div class="cart_items">
-			<h2>Current Sale</h2>
+			<h2>Current Cart</h2>
 			<%= render :partial => 'admin/sales/added_item' %>
 		</div>
 	<% end %>
@@ -21,9 +21,11 @@
 				</div>
 			<% end %>
 			
-			<%= f.inputs :special_order, :work_order %>
+			<h2>Type of Transaction</h2>
+			<%= f.inputs :sale, :special_order, :work_order %>
 			<div class="work_order_items">
-				<%= f.inputs :work_order_dropped_off_item_1, :work_order_dropped_off_item_1, :work_order_dropped_off_item_1, :dropped_off_date, :promised_by_date, :work_order_called, :work_order_paid %>
+				<h2>Items Dropped Off</h2>
+				<%= f.inputs :item_1, :item_1_description, :item_2, :item_2_description, :item_3, :item_3_description, :dropped_off_date, :promised_by_date, :work_order_called, :work_order_paid %>
 			</div>
 			<%= f.inputs :comments %>
 			<% unless @sale.id.blank? %>
@@ -31,7 +33,7 @@
 					<h2>Payment Method</h2>
 						<%= f.select :payment_type, ['Credit Card', 'Cash', 'Check'], {:include_blank => true} %>
 				</div>
-				<%= f.inputs :total_amount, :amount_paid, :sale_completed, :work_order_paid, :work_order_called %>
+				<%= f.inputs :total_amount, :amount_paid, :sale_paid, :work_order_paid %>
 				<% unless @sale.amount_paid.blank? %>
 					<h2>Change: <%= @sale.amount_paid - @sale.total_amount %></h2>
 				<% end %>

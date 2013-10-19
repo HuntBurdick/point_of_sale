@@ -8,6 +8,7 @@ class CreateSales < ActiveRecord::Migration
       t.integer :customer_id
       t.text :comments
 
+      t.boolean :sale
       t.boolean :sale_paid
       t.boolean :sale_refunded
 
@@ -15,9 +16,12 @@ class CreateSales < ActiveRecord::Migration
       t.boolean :work_order_paid
       t.boolean :work_order_called
 
-      t.string :work_order_dropped_off_item_1
-      t.string :work_order_dropped_off_item_2
-      t.string :work_order_dropped_off_item_3
+      t.string :item_1
+      t.text :item_1_description
+      t.string :item_2
+      t.text :item_2_description
+      t.string :item_3
+      t.text :item_3_description
 
       t.date :dropped_off_date
       t.date :promised_by_date
