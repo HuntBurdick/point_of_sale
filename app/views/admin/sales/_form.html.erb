@@ -8,35 +8,48 @@
 	<%= render :partial => 'admin/sales/line_items' %>
 	<%= semantic_form_for [:admin, @sale] do |f| %>
 
-			<div class="cart_items">
-				<h2>Choose Customer</h2>
-				<%= f.select :customer_id, Customer.find(:all, :order => 'last_name').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]}, {:include_blank => true, :default => nil} %>
-			</div>
+
+
+		<%= f.inputs "Choose Customer" do %>
+			<%= f.input :customer_id, :as => :select, :collection => Customer.find(:all, :order => 'last_name').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]} %>
+		<% end %>
+
 			<% unless @sale.customer_id.blank? %>
-				<div class="cart_items">
+				<%= f.inputs "Customer Details" do %>
 					<h2>Customer Info</h2>
 					<p>Name: <%= @sale.customer.last_name %>, <%= @sale.customer.first_name %></p>
 					<p>Phone Number: <%= @sale.customer.phone_number %></p>
 					<p>Email Address: <%= @sale.customer.email_address %></p>
-				</div>
-			<% end %>
-			
-			<h2>Type of Transaction</h2>
-			<%= f.inputs :sale, :special_order, :work_order %>
-			<div class="work_order_items">
-				<h2>Items Dropped Off</h2>
-				<%= f.inputs :item_1, :item_1_description, :item_2, :item_2_description, :item_3, :item_3_description, :dropped_off_date, :promised_by_date, :work_order_called, :work_order_paid %>
-			</div>
-			<%= f.inputs :comments %>
-			<% unless @sale.id.blank? %>
-				<div class="cart_items">
-					<h2>Payment Method</h2>
-						<%= f.select :payment_type, ['Credit Card', 'Cash', 'Check'], {:include_blank => true} %>
-				</div>
-				<%= f.inputs :total_amount, :amount_paid, :sale_paid, :work_order_paid %>
-				<% unless @sale.amount_paid.blank? %>
-					<h2>Change: <%= @sale.amount_paid - @sale.total_amount %></h2>
 				<% end %>
 			<% end %>
-			<%= f.actions %>
+			
+			<%= f.inputs "Type of Transaction" do %> 
+				<%= f.input :sale %> 
+				<%= f.input :special_order %>
+				<%= f.input :work_order %>
+			<% end %>
+			<div class="work_order_items">
+				<h2>Items Dropped Off</h2>
+				<%= f.inputs :item_1, :item_1_description, :item_2, :item_2_description, :item_3, :item_3_description, :dropped_off_date, :promised_by_date, :work_order_called %>
+			</div>
+			<%= f.inputs "Comments" do %>
+				<%= f.input :comments %>
+			<% end %>
+			<% unless @sale.id.blank? %>
+				<%= f.inputs "Payment Method" do %>
+						<%= f.input :payment_type, :as => :select, :collection => ['Credit Card', 'Cash', 'Check'] %>
+				<% end %>
+				<%= f.inputs "Payment Details" do %>
+					<%= f.input :total_amount %>
+					<%= f.input :amount_paid %>
+					<%= f.input :paid %>
+				<% end %>
+				<% unless @sale.amount_paid.blank? %>
+					<h2>Change Due: $<%= @sale.amount_paid - @sale.total_amount %></h2>
+				<% end %>
+				<%= link_to "Print Sale", :controller => 'admin/sales', :action => 'print_view', :sale_id => @sale.id %>
+			<% end %>
+			<%= f.actions do %>
+	      <%= f.action :submit, :as => :button %>
+	    <% end %>
 	<% end %>

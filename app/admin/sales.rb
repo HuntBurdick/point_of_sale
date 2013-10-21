@@ -66,6 +66,13 @@ ActiveAdmin.register Sale do
 	      end
 	end
 
+	collection_action :print_view  do
+
+		@sale = Sale.find(params[:sale_id])
+
+		render :layout => 'print_sale'
+
+	end
 
 	member_action :create, :method => :post do
 		@sale = Sale.new(params[:sale])
@@ -82,6 +89,7 @@ ActiveAdmin.register Sale do
 			end
 		end
 		@sale.total_amount = (total_amount * 1.0825)
+		@sale.tax_amount = (total_amount * 0.0825)
 		@sale.save
 
 		session.delete(:products)
