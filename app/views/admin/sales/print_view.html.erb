@@ -13,6 +13,9 @@ El Paso TX, 79902<br />
 <%= @sale.customer.zip %></p>
 <hr />
 
+<h2>Items Dropped Off</h2>
+<%= @sale.item_1 %>
+
 <h2>Line Items</h2>
 <% for item in @sale.line_items %>
 	<% @item = Item.find(item.item_id) %>

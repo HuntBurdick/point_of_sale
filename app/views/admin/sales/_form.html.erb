@@ -28,7 +28,7 @@
 				<%= f.input :special_order %>
 				<%= f.input :work_order %>
 			<% end %>
-			<div class="work_order_items">
+			<div class="work_order_items" style="display:<%= @sale.work_order == true ? 'block' : 'none' %>">
 				<h2>Items Dropped Off</h2>
 				<%= f.inputs :item_1, :item_1_description, :item_2, :item_2_description, :item_3, :item_3_description, :dropped_off_date, :promised_by_date, :work_order_called %>
 			</div>
@@ -47,9 +47,21 @@
 				<% unless @sale.amount_paid.blank? %>
 					<h2>Change Due: $<%= @sale.amount_paid - @sale.total_amount %></h2>
 				<% end %>
-				<%= link_to "Print Sale", :controller => 'admin/sales', :action => 'print_view', :sale_id => @sale.id %>
+				<%= link_to "Print View", :controller => 'admin/sales', :action => 'print_view', :sale_id => @sale.id %>
 			<% end %>
 			<%= f.actions do %>
 	      <%= f.action :submit, :as => :button %>
 	    <% end %>
 	<% end %>
+
+
+	<script>
+	$("#sale_work_order").click(function(){
+      if (this.checked) {
+       	$(".work_order_items").show();
+    	} else {
+    		$(".work_order_items").hide();
+    	}
+    });
+
+</script>
