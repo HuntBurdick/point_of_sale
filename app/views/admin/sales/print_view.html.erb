@@ -5,24 +5,37 @@
 <p>700 E. Yandell<br />
 El Paso TX, 79902<br />
 (915) 791 - 2006</p>
-<p><%= @sale.customer.last_name %>, <%= @sale.customer.first_name %><br />
-<%= @sale.customer.email_address %><br />
-<%= @sale.customer.phone_number %><br />
-<%= @sale.customer.address %><br />
-<%= @sale.customer.city %><br />
-<%= @sale.customer.zip %></p>
+
+<% unless @sale.customer.blank? %>
+	<h2>Customer Info</h2>
+	<p><%= @sale.customer.last_name %>, <%= @sale.customer.first_name %><br />
+	<%= @sale.customer.email_address %><br />
+	<%= @sale.customer.phone_number %><br />
+	<%= @sale.customer.address %><br />
+	<%= @sale.customer.city %><br />
+	<%= @sale.customer.zip %></p>
+<% end %>
 <hr />
 
-<h2>Items Dropped Off</h2>
-<%= @sale.item_1 %>
+<% if @sale.work_order == true %>
+	<h2>Items Dropped Off</h2>
+	<%= @sale.item_1 %>
+	<%= @sale.item_1_description %>
+	<%= @sale.item_2 %>
+	<%= @sale.item_2_description %>
+	<%= @sale.item_3 %>
+	<%= @sale.item_3_description %>
+<% end %>
 
-<h2>Line Items</h2>
-<% for item in @sale.line_items %>
-	<% @item = Item.find(item.item_id) %>
-	<%= item.quantity %> x
-	<%= @item.sku %>
-	<%= @item.name %>
-	<%= @item.price %><br />
+<% unless @sale.line_items.blank? %>
+	<h2>Line Items</h2>
+	<% for item in @sale.line_items %>
+		<% @item = Item.find(item.item_id) %>
+		<%= item.quantity %> x
+		<%= @item.sku %>
+		<%= @item.name %>
+		<%= @item.price %><br />
+	<% end %>
 <% end %>
 
 
