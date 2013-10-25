@@ -1,14 +1,13 @@
 
-	<% if @sale.id.blank? %>
-		<div class="cart_items">
-			<h2>Current Cart</h2>
-			<%= render :partial => 'admin/sales/added_item' %>
-		</div>
-	<% end %>
-	<%= render :partial => 'admin/sales/line_items' %>
-	<%= semantic_form_for [:admin, @sale] do |f| %>
-
-
+	<%= semantic_form_for [:admin, @sale], builder: ActiveAdmin::FormBuilder do |f| %>
+		
+		<%= f.inputs "Line Items" do %>
+		    <%= f.has_many :line_items, :allow_destroy => true, :heading => 'Line Items', :new_record => true do |cf| %>
+		    	<%= cf.input :item_id, :as => :select, :collection => Item.find(:all, :order => 'name').collect {|p| [ p.name, p.id ]} %>
+		   		<%= cf.input :quantity %>
+		   		<%= cf.form_buffers.last %>
+		    <% end %>
+		<% end %>
 
 		<%= f.inputs "Choose Customer" do %>
 			<%= f.input :customer_id, :as => :select, :collection => Customer.find(:all, :order => 'last_name').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]} %>

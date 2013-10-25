@@ -1,10 +1,4 @@
 ActiveAdmin.register Sale do
-
-		sidebar :cart, :partial => 'admin/sales/added_item'
-		sidebar :add_custom_item_to_cart, :partial => 'admin/sales/custom_item'
-		sidebar :create_customer, :partial => "admin/sales/create_new_customer"
-		sidebar :cart, :partial => 'admin/sales/added_item'
-		sidebar :inventory_items, :partial => 'admin/sales/inventory'
 	
 		config.filters = false
 
@@ -131,10 +125,50 @@ ActiveAdmin.register Sale do
 
 	end
 
-	show do
-    # renders app/views/admin/pages/_some_partial.html.erb
-    render "form"
-  end
+	
 
-  form :partial => "form"  
+  
+	form do |f| 
+		f.inputs "Line Items" do 
+		  f.has_many :line_items, :allow_destroy => true, :heading => '', :new_record => true do |cf|
+		    cf.input :item_id, :as => :select, :collection => Item.find(:all, :order => 'name').collect {|p| [ p.name, p.id ]} 
+		   	cf.input :quantity
+		  end 
+		end 
+
+		f.inputs "Choose Customer" do
+			f.input :customer_id, :as => :select, :collection => Customer.find(:all, :order => 'last_name').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]}
+		end
+			
+		f.inputs "Type of Sale" do
+				f.input :special_order 
+				f.input :work_order
+			end 
+
+			f.inputs "Work Items", :class => 'work_order_items' do 
+			  f.has_many :work_items, :allow_destroy => true, :heading => '', :new_record => true do |cf|
+			   	cf.input :name
+			   	cf.input :description
+			  end
+			  f.input :dropped_off_date 
+			  f.input :promised_by_date
+			  f.input :work_order_called, :label => 'Customer Has Been Called Upun Completion'
+			end
+
+			f.inputs "Initial Comments" do
+				f.input :comments
+			end
+			f.inputs "Payment Method" do
+				f.input :payment_type, :as => :select, :collection => ['Credit Card', 'Cash', 'Check']
+			end
+			f.inputs "Payment Details" do
+				f.input :total_amount
+				f.input :amount_paid
+				f.input :paid
+			end
+
+			f.actions do
+	      f.action :submit, :as => :button
+	    end
+	end 
 end
