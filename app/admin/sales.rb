@@ -1,5 +1,7 @@
 ActiveAdmin.register Sale do
 	
+		sidebar :create_new_customer, :partial => 'admin/sales/create_new_customer'
+
 		config.filters = false
 
 	index do
@@ -125,27 +127,36 @@ ActiveAdmin.register Sale do
 
 	end
 
-	
-
+	show do
+		render :partial => 'sale_view'
+	end
   
 	form do |f| 
 		f.inputs "Line Items" do 
 		  f.has_many :line_items, :allow_destroy => true, :heading => '', :new_record => true do |cf|
-		    cf.input :item_id, :as => :select, :collection => Item.find(:all, :order => 'name').collect {|p| [ p.name, p.id ]} 
+		    cf.input :item_id, :as => :select, :collection => Item.find(:all, :order => 'name').collect {|p| [ "#{p.name}, $#{p.price}", p.id ]} 
 		   	cf.input :quantity
+		   	cf.input :price
+		   	cf.input :total_price
 		  end 
 		end 
 
 		f.inputs "Choose Customer" do
-			f.input :customer_id, :as => :select, :collection => Customer.find(:all, :order => 'last_name').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]}
+			f.input :customer_id, :as => :select, :collection => Customer.find(:all, :order => 'last_name DESC').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]}
 		end
+		# f.inputs "New Customer" do
+		# 	f.semantic_fields_for :customer do |customer|
+	 #      customer.inputs :first_name, :last_name, :email_address, :phone_number, :address, :bike_customer, :public_service
+	 #    end
+	 #  	# f.inputs :first_name, :last_name, :email_address, :phone_number, :address, :bike_customer, :public_service, :for => :customer, :name => "Customer"
+		# end
 			
 		f.inputs "Type of Sale" do
 				f.input :special_order 
 				f.input :work_order
 			end 
 
-			f.inputs "Work Items", :class => 'work_order_items' do 
+			f.inputs "Work Items", :class => 'work_order_items inputs' do 
 			  f.has_many :work_items, :allow_destroy => true, :heading => '', :new_record => true do |cf|
 			   	cf.input :name
 			   	cf.input :description

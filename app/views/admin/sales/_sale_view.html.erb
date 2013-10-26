@@ -1,0 +1,88 @@
+<div class="show_sale">	
+	<% unless @sale.customer_id.blank? %>
+		<% @customer = Customer.find(@sale.customer_id) %>
+	<% end %>
+
+
+	<div class="image logo">
+		<%= image_tag("chucks_ticket_logo.png") %>
+	</div>
+
+	<div class="shop_details">
+		<p>700 E. Yandell<br />
+		El Paso, TX 79902</p>
+	</div>
+
+	<div class="customer_details">
+		<p><%= "#{@customer.last_name.blank? ? '' : @customer.last_name}, #{@customer.first_name.blank? ? '' : @customer.first_name}" %><br />
+		<%= @customer.email_address.blank? ? '' : @customer.email_address %><br />
+		<%= @customer.phone_number.blank? ? '' : @customer.phone_number %><br />
+		<%= @customer.address.blank? ? '' : @customer.address %><br />
+		<%= @customer.city.blank? ? '' : @customer.city %><br />
+		<%= @customer.state.blank? ? '' : @customer.state %><br />
+		<%= @customer.zip.blank? ? '' : @customer.zip %></p>
+	</div>
+
+	<hr />
+
+	<% unless @sale.work_order == false %>
+		<h2>Items Dropped Off</h2>
+		<table>
+			<tr>
+				<th>Item</th>
+				<th>Description</th>
+			<tr>
+			<% for item in @sale.work_items %>
+				<tr>
+					<td><%= item.name %></td>
+					<td><%= item.description %></td>
+				</tr>
+			<% end %>
+		</table>
+		<%= @sale.dropped_off_date.blank? ? '' : @sale.dropped_off_date %>
+		<%= @sale.promised_by_date.blank? ? '' : @sale.promised_by_date %>
+	<% end %>
+
+	<hr />
+
+	<% unless @sale.line_items.blank? %>
+		<h2>Line Items</h2>
+		<table>
+			<tr>
+				<th>Item</th>
+				<th>Description</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<th>Item Total</th>
+			<tr>
+			<% for item in @sale.line_items %>
+				<% @item = Item.find(item.item_id) %>
+				<tr>
+					<td><%= @item.name %></td>
+					<td><%= @item.description %></td>
+					<td><%= item.quantity %></td>
+					<td><%= item.price %></td>
+				</tr>
+			<% end %>
+		</table>
+		<%= @sale.dropped_off_date.blank? ? '' : @sale.dropped_off_date %>
+		<%= @sale.promised_by_date.blank? ? '' : @sale.promised_by_date %>
+	<% end %>
+
+	<hr />
+
+	<h2>Payment Details</h2>
+
+	<%= @sale.paid %>
+	<%= @sale.payment_type %>
+	<%= @sale.total_amount %>
+	<%= @sale.amount_paid %>
+	<%= @sale.tax_amount %>
+
+	<hr />
+
+	<h2>Comments</h2>
+
+	<%= @sale.comments %>
+
+</div>
