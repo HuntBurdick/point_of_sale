@@ -7,6 +7,7 @@ $(document).ready(function(){
 			$(".work_order_items").show();
 		}
 	});
+
 	$(work_order_wrappers).click(function(){
 		if (this.checked) {
 		 	$(".work_order_items").show();
@@ -16,15 +17,64 @@ $(document).ready(function(){
 	});
 
 	// Line Items JS
-	$('.line_items .input .inputs .select select').change(function(){
-		var val = $(this).val();
-		var myString = val.substr(val.indexOf("$") + 1);
 
-		$(this).parent().find(":contains('price')").val('12.99');
+
+	$(".line_items").on("change", "select", function(e){
+		SelectChange(this);
+		console.log('intial insert.');
+		e.stopPropagation();
 
 	});
 
 
+	function SelectChange(selected_item) {
+		var val = $(selected_item).find("option:selected").text();
+		var base_price = val.substr(val.indexOf("$") + 1);
 
+		$(selected_item).parent().parent().find('.item_price').val(base_price);
+		if (base_price > 0) {
+			$(selected_item).parent().parent().find('.item_total_price').val(base_price);
+		} else {
+			$(selected_item).parent().parent().find('.item_total_price').val(0.00);
+			$(selected_item).parent().parent().find('.item_quantity').val(0);
+		}
+
+		// console.log(base_price);
+		// console.log('end select change');
+		UpdateSaleTotals();
+
+	}
+
+
+	$(document).on("change", '.item_quantity', function(){
+		var quantity = $(this).val();
+		var base_price = $(this).parent().parent().find('.item_price').val();
+
+	$(this).parent().parent().find('.item_total_price').val(base_price * quantity);
+		UpdateSaleTotals();
+		console.log(parseFloat(base_price * quantity))
+	});
+
+
+	$(document).on("change", '.item_price', function(){
+		var base_price = $(this).val();
+		var quantity = $(this).parent().parent().find('.item_quantity').val();
+
+		$(this).parent().parent().find('.item_total_price').val(base_price * quantity);
+		UpdateSaleTotals();
+	});
+
+
+	function UpdateSaleTotals() {
+		var sale_total = 0.00;
+		$('.line_items .input .inputs .select select').each(function(){
+			var this_item = $(this).parent().parent().find('.item_total_price').val();
+			sale_total += parseFloat(this_item)
+			console.log('calculating Total....');
+		});
+		console.log(sale_total);
+		$('#sale_total_amount').val(sale_total);
+
+	}
 
 });

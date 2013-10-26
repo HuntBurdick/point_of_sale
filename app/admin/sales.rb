@@ -135,9 +135,10 @@ ActiveAdmin.register Sale do
 		f.inputs "Line Items" do 
 		  f.has_many :line_items, :allow_destroy => true, :heading => '', :new_record => true do |cf|
 		    cf.input :item_id, :as => :select, :collection => Item.find(:all, :order => 'name').collect {|p| [ "#{p.name}, $#{p.price}", p.id ]} 
-		   	cf.input :quantity
-		   	cf.input :price
-		   	cf.input :total_price
+		   	cf.input :quantity, :input_html => { :class => "item_quantity" }
+		   	cf.input :price, :input_html => { :class => "item_price" }
+		   	cf.input :total_price, :input_html => { :class => "item_total_price" }
+
 		  end 
 		end 
 
@@ -178,8 +179,6 @@ ActiveAdmin.register Sale do
 				f.input :paid
 			end
 
-			f.actions do
-	      f.action :submit, :as => :button
-	    end
+			f.actions
 	end 
 end
