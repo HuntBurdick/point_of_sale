@@ -1,6 +1,8 @@
-ActiveAdmin.register AdminUser do  
+ActiveAdmin.register AdminUser do 
 
-  menu :priority => 8, :label => "Employees"
+  # menu :priority => 8, :label => "Employees"
+  
+  menu false
   
   filter :last_name
   filter :first_name
