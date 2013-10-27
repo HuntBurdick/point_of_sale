@@ -25,9 +25,8 @@
 		</div>
 	<% end %>
 
-	<hr />
-
 	<% unless @sale.work_order == false %>
+	<hr />
 		<h2>Items Dropped Off</h2>
 		<table>
 			<tr>
@@ -45,9 +44,8 @@
 		<%= @sale.promised_by_date.blank? ? '' : @sale.promised_by_date %>
 	<% end %>
 
-	<hr />
-
 	<% unless @sale.line_items.blank? %>
+		<hr />
 		<h2>Line Items</h2>
 		<table>
 			<tr>
@@ -76,16 +74,24 @@
 
 	<h2>Payment Details</h2>
 
-	<%= @sale.paid %>
-	<%= @sale.payment_type %>
-	<%= @sale.total_amount %>
-	<%= @sale.amount_paid %>
-	<%= @sale.tax_amount %>
+	<p>Paid: <%= @sale.paid %></p>
+	<% unless @sale.paid == false %>
+		<p>Payment Type: <%= @sale.payment_type %></p>
+	<% end %>
+	<p>Amount: $<%= @sale.total_amount %></p>
+	<p>Tax Amount: $<%= @sale.tax_amount %></p>
+	<p class="grand_total">Total Amount: $<%= @sale.total_amount + @sale.tax_amount %></p>
 
-	<hr />
+	<% unless @sale.paid == false %>
+		<p>Amount Paid: $<%= @sale.amount_paid %></p>
+		<p>Change: $<%= @sale.amount_paid - (@sale.total_amount + @sale.tax_amount) %></p>
+	<% end %>
 
-	<h2>Comments</h2>
+	<% unless @sale.comments.blank? %>
+		<hr />
+		<h2>Comments</h2>
 
-	<%= @sale.comments %>
+		<%= @sale.comments %>
+	<% end %>
 
 </div>

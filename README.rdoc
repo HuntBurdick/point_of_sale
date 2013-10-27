@@ -1,3 +1,3 @@
 == Rails Point of Sale
 
-Rails Point of Sale is a simple way to make sales and track inventory. The system is based off of Active Admin and has basic features so far. I am building the software to use at Chuck's Bicycle Repair, which is a business I have opened with a friend. I will be adding features over time and eventually this will be a full featured point of sale system.
+This is the point of sale for my bike shop.

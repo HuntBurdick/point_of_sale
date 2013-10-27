@@ -1,0 +1,22 @@
+<table>
+	<tr>
+		<th>Number</th>
+		<th>Customer</th>
+		<th>Total</th>
+		<th>Date</th>
+		<th>Paid</th>
+	</tr>
+	<% for sale in Sale.find(:all, :conditions => ["work_order = ?", false]) %>
+		<tr>
+			<td><%= link_to(sale.id, admin_sale_path(sale)) %></td>
+			<td>
+				<% unless sale.customer.blank? %>
+					<%= "#{sale.customer.last_name}, #{sale.customer.first_name}" %>
+				<% end %>
+			</td>
+			<td>$<%= sale.total_amount %></td>
+			<td><%= sale.created_at %></td>
+			<td><%= sale.paid %></td>
+		</tr>
+	<% end %>
+</table>

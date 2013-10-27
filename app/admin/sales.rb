@@ -1,8 +1,17 @@
 ActiveAdmin.register Sale do
 	
-		sidebar :create_new_customer, :partial => 'admin/sales/create_new_customer'
+		# sidebar :create_new_customer, :partial => 'admin/sales/create_new_customer'
 
-		config.filters = false
+		filter :customer, :collection => Customer.all.collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ] }
+		filter :payment_type, :as => :select, :collection => ['Credit Card', 'Cash', 'Check']
+		filter :paid
+		filter :sale_refunded
+		filter :work_order
+		filter :work_order_called
+		filter :dropped_off_date
+		filter :promised_by_date
+		filter :created_at
+		filter :updated_at
 
 	index do
 		column :id do |sale|
@@ -30,20 +39,20 @@ ActiveAdmin.register Sale do
       end
 	end
 
-	collection_action :add_custom_item do
+	# collection_action :add_custom_item do
 
-		item = Item.new(:name => params[:item][:name].capitalize, :price => params[:item][:price].to_f)
-		item.custom_item = true
-		item.stock_amount = 1
-		item.save
+	# 	item = Item.new(:name => params[:item][:name].capitalize, :price => params[:item][:price].to_f)
+	# 	item.custom_item = true
+	# 	item.stock_amount = 1
+	# 	item.save
 
-		(session[:products] ||= []) << item.id
+	# 	(session[:products] ||= []) << item.id
 
-		respond_to do |format|
-      format.html	{ redirect_to :back }
-      # format.js 
-    end
-	end
+	# 	respond_to do |format|
+ #      format.html	{ redirect_to :back }
+ #      # format.js 
+ #    end
+	# end
 
 	collection_action :remove_product do
 		session[:products].delete_if {|x| x == params[:delete_id]}
@@ -72,50 +81,44 @@ ActiveAdmin.register Sale do
 
 	member_action :create, :method => :post do
 		@sale = Sale.new(params[:sale])
-		total_amount = 0.00
+		total_amount = params[:sale][:total_amount]
+		@sale.total_amount = (total_amount)
+		@sale.tax_amount = (total_amount.to_f * 0.0825)
 		@sale.save
-		unless session[:products].blank? 
-			for item in session[:products].group_by {|d| d }
-				current_item = Item.find(item[0])
-				line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
-				line_item.save
-				total_amount += (current_item.price * item[1].count)
-				current_item.stock_amount -= item[1].count
-				current_item.save
-			end
+		
+		for line_item in @sale.line_items
+			@item = Item.find(line_item.item_id)
+			@item.stock_amount -= line_item.quantity
+			@item.save
 		end
-		@sale.total_amount = (total_amount * 1.0825)
-		@sale.tax_amount = (total_amount * 0.0825)
-		@sale.save
 
-		session.delete(:products)
 		redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id, :notice => "Sale was Created"
 	end
 
 
-	collection_action :create_sale_with_items do
+	# collection_action :create_sale_with_items do
 
-		@sale = Sale.new()
-		total_amount = 0.00
-		@sale.save
-		unless session[:products].blank? 
-			for item in session[:products].group_by {|d| d }
-				current_item = Item.find(item[0])
-				line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
-				line_item.save
-				total_amount += (current_item.price * item[1].count)
-				current_item.stock_amount -= item[1].count
-				current_item.save
-			end
-		end
-		@sale.total_amount = (total_amount * 1.0825)
-		@sale.save
+	# 	@sale = Sale.new()
+	# 	total_amount = 0.00
+	# 	@sale.save
+	# 	unless session[:products].blank? 
+	# 		for item in session[:products].group_by {|d| d }
+	# 			current_item = Item.find(item[0])
+	# 			line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
+	# 			line_item.save
+	# 			total_amount += (current_item.price * item[1].count)
+	# 			current_item.stock_amount -= item[1].count
+	# 			current_item.save
+	# 		end
+	# 	end
+	# 	@sale.total_amount = (total_amount * 1.0825)
+	# 	@sale.save
 
-		session.delete(:products)
-		redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id
+	# 	session.delete(:products)
+	# 	redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id
 
 
-	end
+	# end
 
 	collection_action :add_new_customer_to_sale do
 		customer = Customer.new(:first_name => params[:customer][:first_name], :last_name => params[:customer][:last_name], :email_address => params[:customer][:email_address], :phone_number => params[:customer][:phone_number] )
