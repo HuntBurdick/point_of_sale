@@ -90,7 +90,7 @@ ActiveAdmin.register Sale do
 	member_action :create, :method => :post do
 		@sale = Sale.new(params[:sale])
 		total_amount = params[:sale][:total_amount]
-		@sale.total_amount = (total_amount)
+		@sale.total_amount = total_amount.to_f
 		@sale.tax_amount = (total_amount.to_f * 0.0825)
 		@sale.save
 		
@@ -101,6 +101,16 @@ ActiveAdmin.register Sale do
 		end
 
 		redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id, :notice => "Sale was Created"
+	end
+
+	member_action :update, :method => :post do
+		@sale = Sale.find(params[:id])
+		total_amount = params[:sale][:total_amount]
+		@sale.total_amount = total_amount.to_f
+		@sale.tax_amount = (total_amount.to_f * 0.0825)
+		@sale.save
+
+		redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id, :notice => "Sale was Edited"
 	end
 
 
@@ -158,7 +168,7 @@ ActiveAdmin.register Sale do
 				f.input :payment_type, :as => :select, :collection => ['Credit Card', 'Cash', 'Check']
 			end
 			f.inputs "Payment Details" do
-				f.input :total_amount
+				f.input :total_amount, :label => "Amount", :hint => "Total Amount w/ Tax :"
 				f.input :amount_paid
 				f.input :paid
 			end

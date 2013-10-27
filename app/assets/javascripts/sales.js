@@ -75,9 +75,18 @@ $(document).ready(function(){
 		});
 
 		$('#sale_total_amount').val(sale_total);
+		$("#sale_total_amount").change();
 		console.log('new pricing');
 	});
 
+
+	$(document).on("change", '#sale_total_amount', function(){
+		before_tax = $(this).val();
+		total_amount_with_tax = (before_tax * 1.0825)
+		$('#sale_total_amount_input p.inline-hints').html('Total w/ Tax: $' + total_amount_with_tax.toString());
+
+		console.log(parseFloat(total_amount_with_tax));
+	});
 
 
 
