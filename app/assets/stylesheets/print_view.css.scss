@@ -1,0 +1,54 @@
+body {
+	
+}
+
+.clearboth {
+	clear:both;
+}
+
+.sale_print_view {
+	padding:20px;
+	h2 {
+		margin-top:15px;
+	}
+	.show_sale {
+		.logo {
+			width: 200px;
+			float:left;
+			img {
+				padding:0px;
+				margin:0px;
+			}
+		}
+		.shop_details {
+			float:left;
+			width: 200px;
+			margin-top:70px;
+		}
+		.customer_details {
+			float:right;
+			width: auto;
+			padding:5px 20px;
+			border:1px solid #ddd;
+			p {
+				margin:0px;
+				padding:0px;
+			}
+		}
+		table {
+			border:none;
+			tr {
+				background: #ddd;
+				&.odd {
+					background: #fff;
+				}
+			}
+		}
+		hr {
+			color:#aaa;
+			border:none;
+			border-color:#aaa;
+			background-color: #aaa;
+		}
+	}
+}

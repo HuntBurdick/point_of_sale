@@ -1,55 +1,115 @@
-
-<h1><%= @sale.work_order == true ? 'Work Order' : 'Sale' %> #<%= @sale.id %></h1>
-
-<%= image_tag("chucks_ticket_logo.png") %>
-<p>700 E. Yandell<br />
-El Paso TX, 79902<br />
-(915) 791 - 2006</p>
-
-<% unless @sale.customer.blank? %>
-	<h2>Customer Info</h2>
-	<p><%= @sale.customer.last_name %>, <%= @sale.customer.first_name %><br />
-	<%= @sale.customer.email_address %><br />
-	<%= @sale.customer.phone_number %><br />
-	<%= @sale.customer.address %><br />
-	<%= @sale.customer.city %><br />
-	<%= @sale.customer.zip %></p>
-<% end %>
-<hr />
-
-<% if @sale.work_order == true %>
-	<h2>Items Dropped Off</h2>
-	<%= @sale.item_1 %>
-	<%= @sale.item_1_description %>
-	<%= @sale.item_2 %>
-	<%= @sale.item_2_description %>
-	<%= @sale.item_3 %>
-	<%= @sale.item_3_description %>
-<% end %>
-
-<% unless @sale.line_items.blank? %>
-	<h2>Line Items</h2>
-	<% for item in @sale.line_items %>
-		<% @item = Item.find(item.item_id) %>
-		<%= item.quantity %> x
-		<%= @item.sku %>
-		<%= @item.name %>
-		<%= @item.price %><br />
-	<% end %>
-<% end %>
+<div class="sale_print_view">
+	<div class="show_sale">	
+		<% unless @sale.customer_id.blank? %>
+			<% @customer = Customer.find(@sale.customer_id) %>
+		<% end %>
 
 
-<hr />
+		<div class="image logo">
+			<%= image_tag("chucks_ticket_logo.png") %>
+		</div>
 
-<% unless @sale.payment_type.blank? %>
-	<p>Payment Type: <%= @sale.payment_type %></p>
-<% end %>
+		<div class="shop_details">
+			<p>700 E. Yandell<br />
+			El Paso, TX 79902</p>
+		</div>
 
-<% if @sale.payment_type == "Cash" %>
-	<p>Cash Paid: $<%= @sale.amount_paid %></p>
-<% end %>
+		<% unless @customer.blank? %>
+			<div class="customer_details">
+				<h2>Customer Details</h2>
+				<p><%= "#{@customer.last_name.blank? ? '' : @customer.last_name}, #{@customer.first_name.blank? ? '' : @customer.first_name}" %><br />
+				<%= @customer.email_address.blank? ? '' : @customer.email_address %><br />
+				<%= @customer.phone_number.blank? ? '' : @customer.phone_number %><br />
+				<%= @customer.address.blank? ? '' : @customer.address %><br />
+				<%= @customer.city.blank? ? '' : @customer.city %><br />
+				<%= @customer.state.blank? ? '' : @customer.state %><br />
+				<%= @customer.zip.blank? ? '' : @customer.zip %></p>
+			</div>
+		<% end %>
+		<div class="clearboth"></div>
+		<% unless @sale.work_order == false %>
+		<hr />
+			<h2>Items Dropped Off</h2>
+			<table>
+				<tr>
+					<th>Item</th>
+					<th>Description</th>
+				<tr>
+				<% for item in @sale.work_items %>
+					<tr class="<%= cycle('odd', 'even') %>">
+						<td><%= item.name %></td>
+						<td><%= item.description %></td>
+					</tr>
+				<% end %>
+			</table>
+			<p><strong>Dropped Off At:</strong> <%= @sale.dropped_off_date.blank? ? '' : @sale.dropped_off_date %></p>
+			<p><strong>Promised By:</strong> <%= @sale.promised_by_date.blank? ? '' : @sale.promised_by_date %></p>
+		<% end %>
 
-<% unless @sale.total_amount.blank? %>
-	<p>Tax Amount: $<%= @sale.tax_amount %></p>
-	<h2>Total Amount: $<%= @sale.total_amount %></h2>
-<% end %>
+		<% unless @sale.line_items.blank? && @sale.custom_items.blank? %>
+			<hr />
+			<h2>Line Items</h2>
+			<table>
+				<tr>
+					<th>Item</th>
+					<th>Description</th>
+					<th>Quantity</th>
+					<th>Price</th>
+					<th>Item Total</th>
+				<tr>
+				<% unless @sale.line_items.blank? %>
+					<% for item in @sale.line_items %>
+						<% @item = Item.find(item.item_id) %>
+						<tr class="<%= cycle('odd', 'even') %>">
+							<td><%= @item.name %></td>
+							<td><%= @item.description %></td>
+							<td><%= item.quantity %></td>
+							<td><%= item.price %></td>
+							<td><%= item.total_price %></td>
+						</tr>
+					<% end %>
+				<% end %>
+				<% unless @sale.custom_items.blank? %>
+					<% for item in @sale.custom_items %>
+						<tr>
+							<td><%= item.name %></td>
+							<td><%= item.description %></td>
+							<td><%= item.quantity %></td>
+							<td><%= item.price %></td>
+							<td><%= item.total_price %></td>
+						</tr>
+					<% end %>
+				<% end %>
+			</table>
+		<% end %>
+
+
+		<hr />
+
+		<h2>Payment Details</h2>
+
+		<p><strong>Paid:</strong> <%= @sale.paid %></p>
+		<% unless @sale.paid == false %>
+			<p><strong>Payment Type:</strong> <%= @sale.payment_type %></p>
+		<% end %>
+		<p><strong>Amount:</strong> $<%= @sale.total_amount %></p>
+		<p><strong>Tax Amount:</strong> $<%= @sale.tax_amount %></p>
+		<p class="grand_total"><strong>Total Amount:</strong> $<%= @sale.total_amount + @sale.tax_amount %></p>
+
+		<% unless @sale.paid == false %>
+			<p><strong>Amount Paid:</strong> $<%= @sale.amount_paid %></p>
+			<% unless @sale.amount_paid.blank? %>
+				<p><strong>Change:</strong> $<%= @sale.amount_paid - (@sale.total_amount + @sale.tax_amount) %></p>
+			<% end %>
+		<% end %>
+
+		<% unless @sale.comments.blank? %>
+			<hr />
+			<h2>Comments</h2>
+
+			<%= @sale.comments %>
+		<% end %>
+
+	</div>
+
+</div>

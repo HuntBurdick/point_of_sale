@@ -3,6 +3,15 @@ ActiveAdmin.register Customer do
 	filter :first_name
 	filter :email_address
 	filter :phone_number
+
+
+  controller do
+    def apply_pagination(chain)
+        chain = super unless formats.include?(:json) || formats.include?(:csv)
+        chain
+    end
+  end
+  
   index do
     column :last_name
     column :first_name

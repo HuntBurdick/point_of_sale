@@ -13,6 +13,13 @@ ActiveAdmin.register Sale do
 		filter :created_at
 		filter :updated_at
 
+		controller do
+	    def apply_pagination(chain)
+	        chain = super unless formats.include?(:json) || formats.include?(:csv)
+	        chain
+	    end
+	  end
+
 	index do
 		column :id do |sale|
 	  		link_to sale.id, admin_sale_path(sale)
@@ -39,21 +46,6 @@ ActiveAdmin.register Sale do
       end
 	end
 
-	# collection_action :add_custom_item do
-
-	# 	item = Item.new(:name => params[:item][:name].capitalize, :price => params[:item][:price].to_f)
-	# 	item.custom_item = true
-	# 	item.stock_amount = 1
-	# 	item.save
-
-	# 	(session[:products] ||= []) << item.id
-
-	# 	respond_to do |format|
- #      format.html	{ redirect_to :back }
- #      # format.js 
- #    end
-	# end
-
 	collection_action :remove_product do
 		session[:products].delete_if {|x| x == params[:delete_id]}
 		respond_to do |format|
@@ -70,6 +62,22 @@ ActiveAdmin.register Sale do
 	        format.js 
 	      end
 	end
+
+
+	collection_action :start_sale_with_cart_products  do
+
+		unless session[:products].blank? 
+			for item in session[:products].group_by {|d| d }
+				current_item = Item.find(item[0])
+				line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
+				line_item.save
+			end
+		end
+
+		session.delete(:products)
+	end
+
+
 
 	collection_action :print_view  do
 
@@ -96,46 +104,12 @@ ActiveAdmin.register Sale do
 	end
 
 
-	# collection_action :create_sale_with_items do
-
-	# 	@sale = Sale.new()
-	# 	total_amount = 0.00
-	# 	@sale.save
-	# 	unless session[:products].blank? 
-	# 		for item in session[:products].group_by {|d| d }
-	# 			current_item = Item.find(item[0])
-	# 			line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
-	# 			line_item.save
-	# 			total_amount += (current_item.price * item[1].count)
-	# 			current_item.stock_amount -= item[1].count
-	# 			current_item.save
-	# 		end
-	# 	end
-	# 	@sale.total_amount = (total_amount * 1.0825)
-	# 	@sale.save
-
-	# 	session.delete(:products)
-	# 	redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id
-
-
-	# end
-
-	collection_action :add_new_customer_to_sale do
-		customer = Customer.new(:first_name => params[:customer][:first_name], :last_name => params[:customer][:last_name], :email_address => params[:customer][:email_address], :phone_number => params[:customer][:phone_number] )
-		customer.save
-
-		respond_to do |format|
-			format.html	{ redirect_to :back }
-		end
-
-	end
-
 	show do
 		render :partial => 'sale_view'
 	end
   
 	form do |f| 
-		f.inputs "Line Items" do 
+		f.inputs "Line Items from Inventory" do 
 		  f.has_many :line_items, :allow_destroy => true, :heading => '', :new_record => true do |cf|
 		    cf.input :item_id, :as => :select, :collection => Item.find(:all, :order => 'name').collect {|p| [ "#{p.name}, $#{p.price}", p.id ]} 
 		   	cf.input :quantity, :input_html => { :class => "item_quantity" }
@@ -145,15 +119,22 @@ ActiveAdmin.register Sale do
 		  end 
 		end 
 
+		f.inputs "Custom Line Items" do 
+		  f.has_many :custom_items, :allow_destroy => true, :heading => '', :new_record => true do |cf|
+		    cf.input :name
+		    cf.input :description
+		   	cf.input :quantity, :input_html => { :class => "item_quantity" }
+		   	cf.input :price, :input_html => { :class => "item_price" }
+		   	cf.input :total_price, :input_html => { :class => "item_total_price" }
+
+		  end 
+		end 
+
+
 		f.inputs "Choose Customer" do
 			f.input :customer_id, :as => :select, :collection => Customer.find(:all, :order => 'last_name DESC').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]}
 		end
-		# f.inputs "New Customer" do
-		# 	f.semantic_fields_for :customer do |customer|
-	 #      customer.inputs :first_name, :last_name, :email_address, :phone_number, :address, :bike_customer, :public_service
-	 #    end
-	 #  	# f.inputs :first_name, :last_name, :email_address, :phone_number, :address, :bike_customer, :public_service, :for => :customer, :name => "Customer"
-		# end
+
 			
 		f.inputs "Type of Sale" do
 				f.input :special_order 

@@ -10,6 +10,13 @@ ActiveAdmin.register Item do
 
   sidebar :cart, :partial => 'admin/sales/added_item'
 
+  controller do
+    def apply_pagination(chain)
+        chain = super unless formats.include?(:json) || formats.include?(:csv)
+        chain
+    end
+  end
+
   index do
   	column :sku do |item|
       link_to item.sku, admin_item_path(item)
