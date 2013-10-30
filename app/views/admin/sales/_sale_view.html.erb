@@ -83,23 +83,23 @@
 			</table>
 		<% end %>
 
+		<% unless @sale.work_order == true %>
+			<hr />
+			<h2>Payment Details</h2>
 
-		<hr />
+			<p><strong>Paid:</strong> <%= @sale.paid %></p>
+			<% unless @sale.paid == false %>
+				<p><strong>Payment Type:</strong> <%= @sale.payment_type %></p>
+			<% end %>
+			<p><strong>Amount:</strong> $<%= @sale.total_amount %></p>
+			<p><strong>Tax Amount:</strong> $<%= @sale.tax_amount %></p>
+			<p class="grand_total"><strong>Total Amount:</strong> $<%= @sale.total_amount + @sale.tax_amount %></p>
 
-		<h2>Payment Details</h2>
-
-		<p><strong>Paid:</strong> <%= @sale.paid %></p>
-		<% unless @sale.paid == false %>
-			<p><strong>Payment Type:</strong> <%= @sale.payment_type %></p>
-		<% end %>
-		<p><strong>Amount:</strong> $<%= @sale.total_amount %></p>
-		<p><strong>Tax Amount:</strong> $<%= @sale.tax_amount %></p>
-		<p class="grand_total"><strong>Total Amount:</strong> $<%= @sale.total_amount + @sale.tax_amount %></p>
-
-		<% unless @sale.paid == false %>
-			<p><strong>Amount Paid:</strong> $<%= @sale.amount_paid %></p>
-			<% unless @sale.amount_paid.blank? %>
-				<p><strong>Change:</strong> $<%= @sale.amount_paid - (@sale.total_amount + @sale.tax_amount) %></p>
+			<% unless @sale.paid == false %>
+				<p><strong>Amount Paid:</strong> $<%= @sale.amount_paid %></p>
+				<% unless @sale.amount_paid.blank? %>
+					<p><strong>Change:</strong> $<%= @sale.amount_paid - (@sale.total_amount + @sale.tax_amount) %></p>
+				<% end %>
 			<% end %>
 		<% end %>
 

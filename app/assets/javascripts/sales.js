@@ -2,11 +2,33 @@ $(document).ready(function(){
 
 	//Work Orders Js
 	work_order_wrappers = $("#sale_work_order");
+
+	quick_sale_wrappers = $("#sale_quick_sale"); 
+
+
+	quick_sale_wrappers.each(function(){
+		if (this.checked) {
+			$(".hide_for_quick_sale").hide();
+		}
+	});
+
+
+	$(quick_sale_wrappers).click(function(){
+		console.log('fired');
+		if (this.checked) {
+		 	$(".hide_for_quick_sale").hide();
+		} else {
+			$(".hide_for_quick_sale").show();
+		}
+	});
+
+
 	work_order_wrappers.each(function(){
 		if (this.checked) {
 			$(".work_order_items").show();
 		}
 	});
+
 
 	$(work_order_wrappers).click(function(){
 		if (this.checked) {
@@ -87,6 +109,18 @@ $(document).ready(function(){
 
 		console.log(parseFloat(total_amount_with_tax));
 	});
+
+
+	var sale_total = 0.00;
+
+		$('.item_total_price').each(function(){
+			var this_item = $(this).val();
+			sale_total += parseFloat(this_item)
+		});
+
+		$('#sale_total_amount').val(sale_total);
+		$("#sale_total_amount").change();
+		console.log('new pricing');
 
 
 
