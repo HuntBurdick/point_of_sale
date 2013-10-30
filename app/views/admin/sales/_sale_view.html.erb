@@ -93,7 +93,9 @@
 			<% end %>
 			<p><strong>Amount:</strong> $<%= @sale.total_amount %></p>
 			<p><strong>Tax Amount:</strong> $<%= @sale.tax_amount %></p>
-			<p class="grand_total"><strong>Total Amount:</strong> $<%= @sale.total_amount + @sale.tax_amount %></p>
+			<% unless @sale.total_amount.blank? || @sale.tax_amount.blank? %>
+				<p class="grand_total"><strong>Total Amount:</strong> $<%= @sale.total_amount + @sale.tax_amount %></p>
+			<% end %>
 
 			<% unless @sale.paid == false %>
 				<p><strong>Amount Paid:</strong> $<%= @sale.amount_paid %></p>

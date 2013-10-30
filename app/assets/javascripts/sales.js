@@ -111,7 +111,8 @@ $(document).ready(function(){
 	});
 
 
-	var sale_total = 0.00;
+	
+		var sale_total = 0.00;
 
 		$('.item_total_price').each(function(){
 			var this_item = $(this).val();

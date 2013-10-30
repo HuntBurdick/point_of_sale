@@ -66,15 +66,21 @@ ActiveAdmin.register Sale do
 
 	collection_action :start_sale_with_cart_products  do
 
-		unless session[:products].blank? 
+		unless session[:products].blank?
+			@new_sale = Sale.create()
+	
 			for item in session[:products].group_by {|d| d }
 				current_item = Item.find(item[0])
-				line_item = LineItem.new(:item_id => current_item.id, :sale_id => @sale.id, :quantity => item[1].count)
+				line_item = LineItem.new(:item_id => current_item.id, :sale_id => @new_sale.id, :quantity => item[1].count)
 				line_item.save
 			end
+			@new_sale.save
 		end
 
+		puts 'asdflkjsdflkjsdflkjsdflkjsdfksjfdklsdfjklj'
+
 		session.delete(:products)
+		redirect_to :controller => 'sales', :action => 'edit', :id => @new_sale.id
 	end
 
 
