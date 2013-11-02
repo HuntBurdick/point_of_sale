@@ -77,8 +77,6 @@ ActiveAdmin.register Sale do
 			@new_sale.save
 		end
 
-		puts 'asdflkjsdflkjsdflkjsdflkjsdfksjfdklsdfjklj'
-
 		session.delete(:products)
 		redirect_to :controller => 'sales', :action => 'edit', :id => @new_sale.id
 	end
@@ -140,8 +138,12 @@ ActiveAdmin.register Sale do
 		   	cf.input :name
 		   	cf.input :description
 		  end
-		  f.input :dropped_off_date 
-		  f.input :promised_by_date
+		  # f.input :dropped_off_date 
+		  # f.input :promised_by_date
+
+			f.input :dropped_off_date, :as => :string, :input_html => {:class => "hasDatetimePicker"}
+			f.input :promised_by_date, :as => :string, :input_html => {:class => "hasDatetimePicker"} 
+			
 		  f.input :work_order_called, :label => 'Customer Has Been Called Upun Completion'
 		end
 

@@ -1,0 +1,59 @@
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+/* css hack for jquery-ui datepicker */
+#ui-datepicker-div {
+    width: 202px;
+}
+#ui-datepicker-div .ui-state-active {
+    border: 1px solid #7E7783;
+    background: #5F5964;
+    font-weight: bold;
+    color: white;
+    outline: none;
+}
+#ui-datepicker-div .ui-datepicker-header a {
+    margin-top: 8px;
+}
+#ui-datepicker-div .ui-datepicker-header a span {
+    display: block;
+}
+
+
+/* css for timepicker */
+.ui-timepicker-div dl { 
+    text-align: left;
+    color: #5E6469;
+}
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+#ui-datepicker-div {
+	background: #fff !important;
+	border:1px solid #444;
+	margin: 0 10px;
+    padding: 0 10px;
+}
+
+.ui_tpicker_hour_slider, .ui_tpicker_minute_slider {
+	border:1px solid #000 !important;
+}
+
+.ui-datepicker-calendar {
+	width:197px !important;
+}
+
+
+.ui-datepicker-header {
+	background: #999 !important;
+}
