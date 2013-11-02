@@ -59,14 +59,16 @@
 				<tr>
 				<% unless @sale.line_items.blank? %>
 					<% for item in @sale.line_items %>
-						<% @item = Item.find(item.item_id) %>
-						<tr class="<%= cycle('odd', 'even') %>">
-							<td><%= @item.name %></td>
-							<td><%= @item.description %></td>
-							<td><%= item.quantity %></td>
-							<td><%= item.price %></td>
-							<td><%= item.total_price %></td>
-						</tr>
+						<% unless item.item_id.blank? %>
+							<% @item = Item.find(item.item_id) %>
+							<tr class="<%= cycle('odd', 'even') %>">
+								<td><%= @item.name %></td>
+								<td><%= @item.description %></td>
+								<td><%= item.quantity %></td>
+								<td><%= item.price %></td>
+								<td><%= item.total_price %></td>
+							</tr>
+						<% end %>
 					<% end %>
 				<% end %>
 				<% unless @sale.custom_items.blank? %>

@@ -91,17 +91,59 @@ ActiveAdmin.register Sale do
 
 	end
 
+
 	member_action :create, :method => :post do
 		@sale = Sale.new(params[:sale])
 		total_amount = params[:sale][:total_amount]
-		@sale.total_amount = total_amount.to_f
-		@sale.tax_amount = (total_amount.to_f * 0.0825)
+
+		unless @sale.total_amount.blank?
+			@sale.total_amount = total_amount.to_f
+			@sale.tax_amount = (total_amount.to_f * 0.0825)
+		end
+
+
+		if @sale.create_new_customer == true
+			new_customer = Customer.new()
+
+			new_customer.first_name = @sale.first_name
+			new_customer.last_name = @sale.last_name
+			new_customer.email_address = @sale.email_address
+			new_customer.phone_number = @sale.phone_number
+			new_customer.address = @sale.address
+			new_customer.city = @sale.city
+			new_customer.state = @sale.state
+			new_customer.zip = @sale.zip
+			new_customer.bike_customer = @sale.bike_customer
+			new_customer.public_service = @sale.public_service
+
+			new_customer.save
+
+			@sale.customer_id = new_customer.id
+
+			@sale.create_new_customer = false
+
+			@sale.first_name = ''
+			@sale.last_name = ''
+			@sale.email_address = ''
+			@sale.phone_number =  ''
+			@sale.address = ''
+			@sale.city = ''
+			@sale.state = ''
+			@sale.zip = ''
+			@sale.bike_customer = ''
+			@sale.public_service = ''
+
+		end
+
+
 		@sale.save
 		
 		for line_item in @sale.line_items
-			@item = Item.find(line_item.item_id)
-			@item.stock_amount -= line_item.quantity
-			@item.save
+			unless line_item.item_id.blank?
+				@item = Item.find(line_item.item_id)
+				@item.stock_amount -= line_item.quantity
+				@item.save
+			end
 		end
 
 		redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id, :notice => "Sale was Created"
@@ -112,8 +154,44 @@ ActiveAdmin.register Sale do
 		@sale.update_attributes(params[:sale])
 
 		total_amount = params[:sale][:total_amount]
-		@sale.total_amount = total_amount.to_f
-		@sale.tax_amount = (total_amount.to_f * 0.0825)
+
+		unless total_amount.blank?
+			@sale.total_amount = total_amount.to_f
+			@sale.tax_amount = (total_amount.to_f * 0.0825)
+		end
+
+		if @sale.create_new_customer == true
+			new_customer = Customer.new()
+
+			new_customer.first_name = @sale.first_name
+			new_customer.last_name = @sale.last_name
+			new_customer.email_address = @sale.email_address
+			new_customer.phone_number = @sale.phone_number
+			new_customer.address = @sale.address
+			new_customer.city = @sale.city
+			new_customer.state = @sale.state
+			new_customer.zip = @sale.zip
+			new_customer.bike_customer = @sale.bike_customer
+			new_customer.public_service = @sale.public_service
+
+			new_customer.save
+
+			@sale.customer_id = new_customer.id
+
+			@sale.create_new_customer = false
+
+			@sale.first_name = ''
+			@sale.last_name = ''
+			@sale.email_address = ''
+			@sale.phone_number =  ''
+			@sale.address = ''
+			@sale.city = ''
+			@sale.state = ''
+			@sale.zip = ''
+			@sale.bike_customer = ''
+			@sale.public_service = ''
+
+		end
 
 		@sale.save
 
@@ -133,7 +211,7 @@ ActiveAdmin.register Sale do
 			f.input :work_order
 		end 
 
-		f.inputs "Work Items", :class => 'work_order_items inputs hide_for_quick_sale' do 
+		f.inputs "Work Order Items Dropped Off (bicycles, wheels, parts for service)", :class => 'work_order_items inputs hide_for_quick_sale' do 
 		  f.has_many :work_items, :allow_destroy => true, :heading => '', :new_record => true do |cf|
 		   	cf.input :name
 		   	cf.input :description
@@ -143,7 +221,7 @@ ActiveAdmin.register Sale do
 
 			f.input :dropped_off_date, :as => :string, :input_html => {:class => "hasDatetimePicker"}
 			f.input :promised_by_date, :as => :string, :input_html => {:class => "hasDatetimePicker"} 
-			
+
 		  f.input :work_order_called, :label => 'Customer Has Been Called Upun Completion'
 		end
 
@@ -171,6 +249,18 @@ ActiveAdmin.register Sale do
 
 		f.inputs "Choose Customer", :class => 'hide_for_quick_sale' do
 			f.input :customer_id, :as => :select, :collection => Customer.find(:all, :order => 'last_name DESC').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]}
+			f.input :create_new_customer
+		end
+
+		f.inputs "Create and Add New Customer", :class => 'new_customer_fields' do
+			f.input :first_name
+			f.input :last_name
+			f.input :email_address
+			f.input :phone_number
+			f.input :address
+			f.input :zip
+			f.input :bike_customer
+			f.input :public_service
 		end
 
 		f.inputs "Initial Comments", :class => 'hide_for_quick_sale' do

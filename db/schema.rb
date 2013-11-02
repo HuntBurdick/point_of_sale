@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131030032121) do
+ActiveRecord::Schema.define(:version => 20131102182815) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -106,8 +106,8 @@ ActiveRecord::Schema.define(:version => 20131030032121) do
   end
 
   create_table "sales", :force => true do |t|
-    t.decimal  "total_amount",       :precision => 8, :scale => 2
-    t.decimal  "tax_amount",         :precision => 8, :scale => 2
+    t.decimal  "total_amount",        :precision => 8, :scale => 2
+    t.decimal  "tax_amount",          :precision => 8, :scale => 2
     t.boolean  "paid"
     t.decimal  "amount_paid"
     t.string   "payment_type"
@@ -126,9 +126,20 @@ ActiveRecord::Schema.define(:version => 20131030032121) do
     t.date     "dropped_off_date"
     t.date     "promised_by_date"
     t.boolean  "special_order"
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
     t.boolean  "quick_sale"
+    t.boolean  "create_new_customer"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email_address"
+    t.string   "phone_number"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.boolean  "bike_customer"
+    t.boolean  "public_service"
   end
 
   create_table "work_items", :force => true do |t|

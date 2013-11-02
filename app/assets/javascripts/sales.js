@@ -3,7 +3,9 @@ $(document).ready(function(){
 	//Work Orders Js
 	work_order_wrappers = $("#sale_work_order");
 
-	quick_sale_wrappers = $("#sale_quick_sale"); 
+	quick_sale_wrappers = $("#sale_quick_sale");
+
+	create_new_customer_wrappers = $("#sale_create_new_customer");
 
 
 	quick_sale_wrappers.each(function(){
@@ -35,6 +37,22 @@ $(document).ready(function(){
 		 	$(".work_order_items").show();
 		} else {
 			$(".work_order_items").hide();
+		}
+	});
+
+
+	create_new_customer_wrappers.each(function(){
+		if (this.checked) {
+			$(".new_customer_fields").show();
+		}
+	});
+
+
+	$(create_new_customer_wrappers).click(function(){
+		if (this.checked) {
+		 	$(".new_customer_fields").show();
+		} else {
+			$(".new_customer_fields").hide();
 		}
 	});
 
@@ -109,6 +127,9 @@ $(document).ready(function(){
 
 		console.log(parseFloat(total_amount_with_tax));
 	});
+
+
+	// Need to make sure a NaN value doesn't get passed if blank items are added to order.
 
 
 	
