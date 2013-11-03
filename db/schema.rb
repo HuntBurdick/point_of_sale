@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20131102182815) do
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
   create_table "custom_items", :force => true do |t|
-    t.integer  "name"
+    t.string   "name"
     t.text     "description"
     t.integer  "quantity",                                  :default => 1
     t.integer  "sale_id"

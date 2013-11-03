@@ -42,8 +42,8 @@
 					</tr>
 				<% end %>
 			</table>
-			<p><strong>Dropped Off At:</strong> <%= @sale.dropped_off_date.blank? ? '' : @sale.dropped_off_date %></p>
-			<p><strong>Promised By:</strong> <%= @sale.promised_by_date.blank? ? '' : @sale.promised_by_date %></p>
+			<p><strong>Dropped Off At:</strong> <%= @sale.dropped_off_date.blank? ? '' : @sale.dropped_off_date.strftime("%B %d, %Y") %></p>
+			<p><strong>Promised By:</strong> <%= @sale.promised_by_date.blank? ? '' : @sale.promised_by_date.strftime("%B %d, %Y") %></p>
 		<% end %>
 
 		<% unless @sale.line_items.blank? && @sale.custom_items.blank? %>
