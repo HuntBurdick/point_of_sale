@@ -1,4 +1,4 @@
-<% @current_sales = Sale.where("DATE(created_at) = DATE(?)", Time.now.in_time_zone("Mountain Time (US & Canada)") ) %>
+<% @current_sales = Sale.where("DATE(created_at) = ?", Date.current ) %>
 <% @total_price = 0.00 %>
 
 
