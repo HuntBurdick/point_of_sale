@@ -1,0 +1,11 @@
+<% @current_sales = Sale.where("DATE(created_at) = DATE(?)", Time.now) %>
+<% @total_price = 0.00 %>
+
+
+<% for sale in @current_sales %>
+		<% @total_price += sale.total_amount %>
+<% end %>
+
+<div class="todays_total">
+	Sales Total for Today: $<%= @total_price %>
+</div>
