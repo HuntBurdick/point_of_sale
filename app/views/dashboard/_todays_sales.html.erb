@@ -1,9 +1,12 @@
-<% @current_sales = Sale.where("DATE(created_at) = ?", Date.current ) %>
+<% @current_sales = Sale.find(:all) %>
+
 <% @total_price = 0.00 %>
 
 
 <% for sale in @current_sales %>
+	<% if sale.created_at.to_date == Date.current %>
 		<% @total_price += sale.total_amount %>
+	<% end %>
 <% end %>
 
 <div class="todays_total">
