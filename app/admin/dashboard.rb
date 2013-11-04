@@ -4,13 +4,13 @@ ActiveAdmin.register_page "Dashboard" do
 
   content :title => proc{ I18n.t("active_admin.dashboard") } do
     
-    columns do
-      column do 
-        panel "Today's Sales" do
-          render :partial => 'dashboard/todays_sales'
-        end
-      end
-    end
+    # columns do
+    #   column do 
+    #     panel "Today's Sales" do
+    #       render :partial => 'dashboard/todays_sales'
+    #     end
+    #   end
+    # end
     
     columns do
       column do
