@@ -4,7 +4,9 @@
 
 
 <% for sale in @current_sales %>
+	<% unless sale.total_amount.blank? %>
 		<% @total_price += sale.total_amount %>
+	<% end %>
 <% end %>
 
 <div class="todays_total">
