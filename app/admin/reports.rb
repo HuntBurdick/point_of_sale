@@ -2,17 +2,28 @@ ActiveAdmin.register_page "Reports" do
 	# menu false
 
 	page_action :sales_report do
-		if params[:item][:start_date].to_datetime.to_formatted_s(:db) == params[:item][:end_date].to_datetime.to_formatted_s(:db)
+
+		@start_date = params[:item][:start_date].to_datetime.to_formatted_s(:db)
+		@end_date = params[:item][:end_date].to_datetime.to_formatted_s(:db)
+
+		if @start_date == @end_date
 			if params[:item][:paid] == '1'
-				@sales = Sale.find(:all, :conditions => ["paid=? AND date(created_at) = ?", true, "#{params[:item][:start_date].to_datetime.to_formatted_s(:db)}"])
+				@sales = Sale.find(:all, :conditions => ["paid=? AND date(created_at) = ?", true, @start_date])
 			elsif params[:item][:pending] == '1'
-				@sales = Sale.find(:all, :conditions => ["paid=? AND date(created_at) = ?", false, "#{params[:item][:start_date].to_datetime.to_formatted_s(:db)}"])
+				@sales = Sale.find(:all, :conditions => ["paid=? AND date(created_at) = ?", false, @start_date])
 			end
 		else 
 			if params[:item][:paid] == '1'
-				@sales = Sale.find(:all, :conditions => ["paid=? AND date(created_at) BETWEEN ? AND ?", true, "#{params[:item][:start_date].to_datetime.to_formatted_s(:db)}", "#{params[:item][:end_date].to_datetime.to_formatted_s(:db)}"])
+				@sales = Sale.find(:all, :conditions => ["paid=? AND date(created_at) BETWEEN ? AND ?", true, @start_date, @end_date])
 			elsif params[:item][:pending] == '1'
-				@sales = Sale.find(:all, :conditions => ["paid=? AND date(created_at) BETWEEN ? AND ?", false, "#{params[:item][:start_date].to_datetime.to_formatted_s(:db)}", "#{params[:item][:end_date].to_datetime.to_formatted_s(:db)}"])
+				@sales = Sale.find(:all, :conditions => ["paid=? AND date(created_at) BETWEEN ? AND ?", false, @start_date, @end_date])
+			end
+		end
+
+		unless @sales.blank?
+			@sales_total = 0.00 
+			for sale in @sales
+				@sales_total += sale.total_amount
 			end
 		end
 
