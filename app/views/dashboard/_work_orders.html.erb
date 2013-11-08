@@ -6,7 +6,7 @@
 		<th>Promised By</th>
 		<th>Paid</th>
 	</tr>
-	<% for sale in Sale.find(:all, :conditions => ["work_order = ? AND paid = ?", true, false], :order => 'promised_by_date ASC') %>
+	<% for sale in Sale.find(:all, :conditions => ["work_order = ?", true], :order => 'promised_by_date ASC') %>
 	<tr>
 		<td><%= link_to(sale.id, admin_sale_path(sale)) %></td>
 		<td>
