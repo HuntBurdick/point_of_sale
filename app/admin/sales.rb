@@ -244,7 +244,7 @@ ActiveAdmin.register Sale do
 
 			f.input :pending_parts, :label => 'Work order is pending parts'
 		  f.input :work_order_done, :label => 'Work order is completed'
-		  f.input :work_order_called, :label => 'Customer Has Been Called Upun Completion'
+		  f.input :work_order_called, :label => 'Customer Has Been Called Upon Completion'
 		end
 
 		f.inputs "Line Items from Inventory" do 

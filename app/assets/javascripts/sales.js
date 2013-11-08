@@ -137,7 +137,7 @@ $(document).ready(function(){
 
 		$('.item_total_price').each(function(){
 			var this_item = $(this).val();
-			sale_total += parseFloat(this_item)
+			sale_total += parseFloat(this_item.toFixed(2))
 		});
 
 		$('#sale_total_amount').val(sale_total);
