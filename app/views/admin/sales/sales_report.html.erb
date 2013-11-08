@@ -1,0 +1,18 @@
+<% if @sales.blank? %>
+	<h2>There was an error retrieving your report <a href="/admin/reports">Submit Another Request</a></h2>
+<% else %>
+  <table>
+  	<tr>
+  		<th>Sale #</th>
+  		<th>Created At</th>
+  		<th>Customer Last Name</th>
+  	</tr>
+		<% for sale in @sales %>
+			<tr>
+				<td><%= sale.id %></td>
+				<td><%= sale.created_at %></td>
+				<td><%= sale.customer.blank? == true ? sale.customer.last_name : 'N/A' %></td>
+			</tr>
+		<% end %>
+  </table>
+<% end %>

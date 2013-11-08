@@ -10,7 +10,7 @@ development:
   # timeout: 5000
   adapter: postgresql
   encoding: utf8
-  database: chucks_pos
+  database: rails_pos
   pool: 5
   username: postgres
   password: freeride

@@ -1,24 +1,25 @@
 ActiveAdmin.register Sale do
 	
-		# sidebar :create_new_customer, :partial => 'admin/sales/create_new_customer'
+	# sidebar :create_new_customer, :partial => 'admin/sales/create_new_customer'
 
-		filter :customer, :collection => Customer.all.collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ] }
-		filter :payment_type, :as => :select, :collection => ['Credit Card', 'Cash', 'Check']
-		filter :paid
-		filter :sale_refunded
-		filter :work_order
-		filter :work_order_called
-		filter :dropped_off_date
-		filter :promised_by_date
-		filter :created_at
-		filter :updated_at
+	filter :customer, :collection => Customer.all.collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ] }
+	filter :payment_type, :as => :select, :collection => ['Credit Card', 'Cash', 'Check']
+	filter :paid
+	filter :sale_refunded
+	filter :work_order
+	filter :work_order_called
+	filter :dropped_off_date
+	filter :promised_by_date
+	filter :created_at
+	filter :updated_at
 
-		controller do
-	    def apply_pagination(chain)
-	        chain = super unless formats.include?(:json) || formats.include?(:csv)
-	        chain
-	    end
+	controller do
+	  def apply_pagination(chain)
+	      chain = super unless formats.include?(:json) || formats.include?(:csv)
+	      chain
 	  end
+	end
+
 
 	index do
 		column :id do |sale|
@@ -101,6 +102,14 @@ ActiveAdmin.register Sale do
 			@sale.tax_amount = (total_amount.to_f * 0.0825)
 		end
 
+		unless params[:sale][:dropped_off_date].blank?
+			@sale.dropped_off_date = params[:sale][:dropped_off_date].to_datetime.to_formatted_s(:db)
+		end
+
+		unless params[:sale][:promised_by_date]
+			@sale.promised_by_date = params[:sale][:promised_by_date].to_datetime.to_formatted_s(:db) 
+		end
+
 
 		if @sale.create_new_customer == true
 			new_customer = Customer.new()
@@ -160,6 +169,14 @@ ActiveAdmin.register Sale do
 			@sale.tax_amount = (total_amount.to_f * 0.0825)
 		end
 
+		unless params[:sale][:dropped_off_date].blank?
+			@sale.dropped_off_date = params[:sale][:dropped_off_date].to_datetime.to_formatted_s(:db)
+		end
+
+		unless params[:sale][:promised_by_date]
+			@sale.promised_by_date = params[:sale][:promised_by_date].to_datetime.to_formatted_s(:db) 
+		end
+
 		if @sale.create_new_customer == true
 			new_customer = Customer.new()
 
@@ -198,6 +215,8 @@ ActiveAdmin.register Sale do
 		redirect_to :controller => 'admin/sales', :action => 'show', :id => @sale.id, :notice => "Sale was Edited"
 	end
 
+
+	
 
 	show do
 		render :partial => 'sale_view'

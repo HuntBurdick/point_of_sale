@@ -42,8 +42,8 @@
 					</tr>
 				<% end %>
 			</table>
-			<p><strong>Dropped Off At:</strong> <%= @sale.dropped_off_date.blank? ? '' : @sale.dropped_off_date.strftime("%B %d, %Y") %></p>
-			<p><strong>Promised By:</strong> <%= @sale.promised_by_date.blank? ? '' : @sale.promised_by_date.strftime("%B %d, %Y") %></p>
+			<p><strong>Dropped Off At:</strong> <%= @sale.dropped_off_date.blank? ? 'blank' : @sale.dropped_off_date.strftime("%B %d, %Y") %></p>
+			<p><strong>Promised By:</strong> <%= @sale.promised_by_date.blank? ? 'blank' : @sale.promised_by_date.strftime("%B %d, %Y") %></p>
 		<% end %>
 
 		<% unless @sale.line_items.blank? && @sale.custom_items.blank? %>
@@ -73,7 +73,7 @@
 				<% end %>
 				<% unless @sale.custom_items.blank? %>
 					<% for item in @sale.custom_items %>
-						<tr>
+						<tr class="<%= cycle('even', 'odd') %>">
 							<td><%= item.name %></td>
 							<td><%= item.description %></td>
 							<td><%= item.quantity %></td>

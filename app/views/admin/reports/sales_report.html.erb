@@ -1,0 +1,20 @@
+<% if @sales.blank? %>
+	<h2>There are no sales with the selected parameters <a href="/admin/reports">Submit Another Request</a></h2>
+<% else %>
+  <table>
+  	<tr>
+  		<th>Sale #</th>
+  		<th>Created At</th>
+  		<th>Customer Last Name</th>
+  		<th>Sale Price</th>
+  	</tr>
+		<% for sale in @sales %>
+			<tr>
+				<td><%= sale.id %></td>
+				<td><%= sale.created_at %></td>
+				<td><%= sale.customer.blank? == true ? 'N/A' : sale.customer.last_name %></td>
+				<td><%= sale.total_amount.blank? == true ? '-' : sale.total_amount %></td>
+			</tr>
+		<% end %>
+  </table>
+<% end %>
