@@ -73,13 +73,15 @@
 				<% end %>
 				<% unless @sale.custom_items.blank? %>
 					<% for item in @sale.custom_items %>
-						<tr class="<%= cycle('even', 'odd') %>">
-							<td><%= item.name %></td>
-							<td><%= item.description %></td>
-							<td><%= item.quantity %></td>
-							<td><%= item.price %></td>
-							<td><%= item.total_price %></td>
-						</tr>
+						<% unless item.name.blank? %>
+							<tr class="<%= cycle('even', 'odd') %>">
+								<td><%= item.name %></td>
+								<td><%= item.description %></td>
+								<td><%= item.quantity %></td>
+								<td><%= item.price %></td>
+								<td><%= item.total_price %></td>
+							</tr>
+						<% end %>
 					<% end %>
 				<% end %>
 			</table>
