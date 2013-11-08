@@ -224,10 +224,11 @@ ActiveAdmin.register Sale do
   
 	form do |f|
 
-		f.inputs "Sale Options" do
+		f.inputs "Sale Types" do
 			f.input :quick_sale
 			f.input :special_order 
 			f.input :work_order
+			f.input :layaway
 		end 
 
 		f.inputs "Work Order Items Dropped Off (bicycles, wheels, parts for service)", :class => 'work_order_items inputs hide_for_quick_sale' do 
@@ -241,6 +242,8 @@ ActiveAdmin.register Sale do
 			f.input :dropped_off_date, :as => :string, :input_html => {:class => "hasDatetimePicker"}
 			f.input :promised_by_date, :as => :string, :input_html => {:class => "hasDatetimePicker"} 
 
+			f.input :pending_parts, :label => 'Work order is pending parts'
+		  f.input :work_order_done, :label => 'Work order is completed'
 		  f.input :work_order_called, :label => 'Customer Has Been Called Upun Completion'
 		end
 

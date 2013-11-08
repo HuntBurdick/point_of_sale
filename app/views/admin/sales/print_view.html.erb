@@ -14,9 +14,9 @@
 			El Paso, TX 79902</p>
 		</div>
 
-		<% unless @customer.blank? %>
-			<div class="customer_details">
-				<h2>Customer Details</h2>
+		<div class="customer_details">
+			<h2># <%= @sale.id %></h2>
+			<% unless @customer.blank? %>
 				<p><%= "#{@customer.last_name.blank? ? '' : @customer.last_name}, #{@customer.first_name.blank? ? '' : @customer.first_name}" %><br />
 				<%= @customer.email_address.blank? ? '' : @customer.email_address %><br />
 				<%= @customer.phone_number.blank? ? '' : @customer.phone_number %><br />
@@ -24,8 +24,8 @@
 				<%= @customer.city.blank? ? '' : @customer.city %><br />
 				<%= @customer.state.blank? ? '' : @customer.state %><br />
 				<%= @customer.zip.blank? ? '' : @customer.zip %></p>
-			</div>
-		<% end %>
+			<% end %>
+		</div>
 		<div class="clearboth"></div>
 		<% unless @sale.work_order == false %>
 		<hr />
