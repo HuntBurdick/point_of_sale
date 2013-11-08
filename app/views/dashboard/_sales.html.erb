@@ -14,7 +14,7 @@
 					<%= "#{sale.customer.last_name}, #{sale.customer.first_name}" %>
 				<% end %>
 			</td>
-			<td>$<%= sale.total_amount %></td>
+			<td>$<%= sale.total_amount.blank? ? '-' : sale.total_amount * 1.0825 %></td>
 			<td><%= sale.created_at.in_time_zone("Mountain Time (US & Canada)").strftime("%B %d, %Y") %></td>
 			<td><%= sale.paid %></td>
 		</tr>
