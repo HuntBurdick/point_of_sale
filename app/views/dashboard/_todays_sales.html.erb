@@ -8,5 +8,6 @@
 <% end %>
 
 <div class="todays_total">
-	Total: $<%= @total_price %>
+	Total: $<%= @total_price.blank? ? '' : @total_price * 1.0825 %><br />
+	<span>only sales marked as "paid" will count towards daily sales.</span>
 </div>

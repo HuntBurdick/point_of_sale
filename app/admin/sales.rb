@@ -31,7 +31,9 @@ ActiveAdmin.register Sale do
   		end
   	end
   	column :total_amount do |sale|
-  		number_to_currency sale.total_amount
+  		unless sale.total_amount.blank?
+  			number_to_currency(sale.total_amount * 1.0825)
+  		end
   	end
   	column :payment_type
   	column :created_at
