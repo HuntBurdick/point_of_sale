@@ -10,16 +10,52 @@
   		<th>Sale Price</th>
   	</tr>
 		<% for sale in @sales %>
-			<tr>
+			<tr class="sales_graph_item">
 				<td><%= sale.id %></td>
-				<td><%= sale.created_at %></td>
+				<td class="sale_created_at"><%= sale.created_at %></td>
 				<td><%= sale.customer.blank? == true ? 'N/A' : sale.customer.last_name %></td>
-				<td><%= sale.total_amount.blank? == true ? '-' : "$#{sale.total_amount}" %></td>
+				<td class="sale_price"><%= sale.total_amount.blank? == true ? '-' : "$#{sale.total_amount}" %></td>
 			</tr>
 		<% end %>
   </table>
   <% unless @sales_total.blank? %>
   <hr />
-  	Total Sales Amount: $<%= @sales_total %>
+  	Total Sales Amount for selected period: $<%= @sales_total %>
   <% end %>
+
+  <div id="chart_div" class="sales_chart"></div>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script>
+   google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Date', 'Sales'],
+        <% for sale in @sales %>
+          <%= "[#{sale.created_at.to_date}, #{sale.total_amount}]#{sale == @sales.last ? '' : ','}" %>
+        <% end %>
+      ]);
+
+      var options = {
+        // title: 'Company Performance'
+        aggregationTarget: 'category',
+        hAxis: {
+          format: {date:'MMM d, y'},
+          title: 'Date',  
+          titleTextStyle: {color: '#FF0000'}
+        },
+        vAxis: {
+          title: 'Price',  
+          titleTextStyle: {color: '#FF0000'}
+        }
+
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+
+  </script>
+
 <% end %>
