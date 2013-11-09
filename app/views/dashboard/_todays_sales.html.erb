@@ -1,4 +1,4 @@
-<% @current_sales = Sale.find(:all, :conditions => ["DATE(created_at) = DATE(?)", Time.now]) %>
+<% @current_sales = Sale.find(:all, :conditions => ["DATE(created_at) = DATE(?)", Time.zone.now]) %>
 
 <% @total_price = 0.00 %>
 
