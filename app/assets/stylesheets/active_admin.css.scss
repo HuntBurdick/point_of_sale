@@ -207,3 +207,15 @@ body.active_admin #header ul.tabs > li > ul li a {
 	border:1px solid #ddd;
 	margin:30px auto;
 }
+
+
+.payment_details {
+	.inline-hints {
+		background: #000;
+		color: #fff;
+		margin-right: 20px;
+		text-align: center;
+		padding: 30px;
+		font-size: 3.0em;
+	}
+}
