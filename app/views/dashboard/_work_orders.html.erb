@@ -4,9 +4,9 @@
 		<th>Customer</th>
 		<th>Total</th>
 		<th>Promised By</th>
-		<th>Paid</th>
+		<th>Status</th>
 	</tr>
-	<% for sale in Sale.find(:all, :conditions => ["work_order = ?", true], :order => 'promised_by_date ASC') %>
+	<% for sale in Sale.find(:all, :conditions => ["work_order = ? AND paid = ?", true, false], :order => 'promised_by_date ASC') %>
 	<tr>
 		<td><%= link_to(sale.id, admin_sale_path(sale)) %></td>
 		<td>
@@ -16,7 +16,7 @@
 		</td>
 		<td>$<%= sale.total_amount.blank? ? '-' : sale.total_amount * 1.0825 %></td>
 		<td><%= sale.promised_by_date.blank? ? '' : sale.promised_by_date.strftime("%B %d, %Y") %></td>
-		<td><%= sale.paid %></td>
+		<td></td>
 	</tr>
 	<% end %>
 </table>
