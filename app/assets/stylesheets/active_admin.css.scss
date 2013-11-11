@@ -233,3 +233,21 @@ body.active_admin #header ul.tabs > li > ul li a {
 		}
 	}
 }
+
+form {
+	.row {
+		margin:20px auto;
+		.input {
+			width: 49%;
+			display: inline-block;
+			&.option {
+				display: block;
+				width: 100%;
+			}
+		}
+	}
+}
+
+#main_content {
+	margin-bottom: 30px;
+}
