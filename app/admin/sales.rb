@@ -2,7 +2,7 @@ ActiveAdmin.register Sale do
 	
 	# sidebar :create_new_customer, :partial => 'admin/sales/create_new_customer'
 
-	filter :customer, :collection => Customer.all.collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ] }
+	filter :customer, :collection => Customer.order('last_name ASC').all.collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ] }
 	filter :payment_type, :as => :select, :collection => ['Credit Card', 'Cash', 'Check']
 	filter :paid
 	filter :sale_refunded
@@ -15,9 +15,13 @@ ActiveAdmin.register Sale do
 
 	controller do
 	  def apply_pagination(chain)
-	      chain = super unless formats.include?(:json) || formats.include?(:csv)
-	      chain
+      chain = super unless formats.include?(:json) || formats.include?(:csv)
+      chain
 	  end
+
+	  def scoped_collection
+      resource_class.includes(:customer) # prevents N+1 queries to your database
+    end
 	end
 
 
@@ -25,11 +29,20 @@ ActiveAdmin.register Sale do
 		column :id do |sale|
   		link_to sale.id, admin_sale_path(sale)
   	end
-  	column :customer_id do |sale|
+
+  	# column :customer_id, sortable: 'customer_id' do |sale|
+  	# 	unless sale.customer_id.blank?
+  	# 		"#{Customer.find(sale.customer_id).last_name},#{Customer.find(sale.customer_id).first_name}"
+  	# 	end
+  	# end
+
+  	column :customer, sortable: 'customers.last_name' do |sale|
   		unless sale.customer_id.blank?
-  			"#{Customer.find(sale.customer_id).last_name},#{Customer.find(sale.customer_id).first_name}"
+  			customer = Customer.find(sale.customer_id)
+  			"#{customer.last_name}, #{customer.first_name}"
   		end
   	end
+
   	column :total_amount do |sale|
   		unless sale.total_amount.blank?
   			number_to_currency(sale.total_amount * 1.0825)
