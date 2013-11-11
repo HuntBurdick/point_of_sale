@@ -239,7 +239,7 @@ ActiveAdmin.register Sale do
   
 	form do |f|
 
-		f.inputs "Sale Types" do
+		f.inputs "Sale Types", :class => "inputs sale_types" do
 			f.input :quick_sale
 			f.input :special_order 
 			f.input :work_order
@@ -283,6 +283,9 @@ ActiveAdmin.register Sale do
 		  end 
 		end 
 
+		f.inputs "Initial Comments", :class => 'inputs hide_for_quick_sale' do
+			f.input :comments
+		end
 
 		f.inputs "Choose Customer", :class => 'inputs hide_for_quick_sale' do
 			f.input :customer_id, :as => :select, :collection => Customer.find(:all, :order => 'last_name DESC').collect {|p| [ "#{p.last_name}, #{p.first_name}", p.id ]}
@@ -300,13 +303,8 @@ ActiveAdmin.register Sale do
 			f.input :public_service
 		end
 
-		f.inputs "Initial Comments", :class => 'inputs hide_for_quick_sale' do
-			f.input :comments
-		end
-		f.inputs "Payment Method" do
-			f.input :payment_type, :as => :select, :collection => ['Credit Card', 'Cash', 'Check']
-		end
 		f.inputs "Payment Details", :class => 'inputs payment_details' do
+			f.input :payment_type, :as => :select, :collection => ['Credit Card', 'Cash', 'Check']
 			f.input :total_amount, :label => "Amount", :hint => "Total + Tax :"
 			f.input :amount_paid
 			f.input :paid
