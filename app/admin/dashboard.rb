@@ -20,7 +20,7 @@ ActiveAdmin.register_page "Dashboard" do
       end
 
       column do
-        panel "Work Orders" do
+        panel "Pending Work Orders (not paid)" do
           render :partial => 'dashboard/work_orders'
         end
       end

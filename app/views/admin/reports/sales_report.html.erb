@@ -33,7 +33,9 @@
       var data = google.visualization.arrayToDataTable([
         ['Date', 'Sales'],
         <% for sale in @sales %>
-          <%= "[#{sale.created_at.to_date}, #{sale.total_amount}]#{sale == @sales.last ? '' : ','}" %>
+          <% @created_at = sale.created_at.to_date %>
+          <% @total_amount = sale.total_amount %>
+            [new Date('<%= @created_at.strftime("%Y") %>, <%= @created_at.strftime("%m") %>, <%= @created_at.strftime("%d") %>'), '<%= @total_amount %>']<%= sale == @sales.last ? '' : ',' %>
         <% end %>
       ]);
 
@@ -41,7 +43,7 @@
         // title: 'Company Performance'
         aggregationTarget: 'category',
         hAxis: {
-          format: {date:'MMM d, y'},
+          format: 'MMM d, y',
           title: 'Date',  
           titleTextStyle: {color: '#FF0000'}
         },

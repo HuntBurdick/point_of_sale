@@ -6,7 +6,7 @@
 		<th>Created At</th>
 		<th>Paid</th>
 	</tr>
-	<% for sale in Sale.find(:all, :conditions => ["work_order = ?", false], :order => 'id DESC') %>
+	<% for sale in Sale.find(:all, :conditions => ["work_order = ?", false], :order => 'id DESC', :limit => 40) %>
 		<tr>
 			<td><%= link_to(sale.id, admin_sale_path(sale)) %></td>
 			<td>
