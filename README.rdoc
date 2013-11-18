@@ -1,3 +1,7 @@
 == Rails Point of Sale
 
-This is the point of sale for my bike shop. It is also a quick prototype for PushVendor. PushVendor is an almost entirely different code base. Anyone is welcome to use this repository but the code is not supported.
+This is the point of sale for my bike shop. It is also a quick prototype for PushVendor. PushVendor is an almost entirely different code base. Anyone is welcome to use this repository but the code is not supported. 
+
+More Info On This Repository
+
+http://www.pushvendor.com/prototype
